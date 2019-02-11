@@ -2,53 +2,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def drow_Ground_truth(path):
-	pose = np.loadtxt(path)
-
-	x = np.array([])
-	y = np.array([])
-	for num in range(len(pose)):
-		x=np.append(x,pose[num][3])
-		y=np.append(y,pose[num][11])
-	plt.scatter(x, y, s=0.1) 
-	plt.show()
-
-def drow_result(path):
-	pose = np.loadtxt(path)
-	x = np.array([])
-	y = np.array([])
-	for num in range(len(pose)):
-		x=np.append(x,pose[num][1])
-		y=np.append(y,pose[num][3])
-	plt.scatter(x, y, s=0.1, c='red') 
-	plt.show()
+def gen_data(path):
+	data = np.loadtxt(path)
+	points = [[],[],[]]
+	for num in range(len(data)):
+		points[0].append(data[num][3])
+		points[1].append(data[num][7])
+		points[2].append(data[num][11])
+	return points
 
 def drow_compare(g_path,r_path):
-	pose = np.loadtxt(g_path)
-	# np.set_printoptions(suppress=True)
-	# print(pose)
-
-	g_x = np.array([])
-	g_y = np.array([])
-	for num in range(len(pose)):
-		g_x=np.append(g_x,pose[num][3])
-		g_y=np.append(g_y,pose[num][11])
-
-	pose = np.loadtxt(r_path)
-	r_x = np.array([])
-	r_y = np.array([])
-	for num in range(len(pose)):
-		r_x=np.append(r_x, pose[num][1])
-		r_y=np.append(r_y, pose[num][3])
+	
 
 
-	plt.scatter(g_x, g_y, s=0.1)
-	plt.scatter(r_x, r_y, s=0.1, c='red')
+	plt.scatter(g_path[0], g_path[2], s=0.5)
+	plt.scatter(list(r_path[0]), list(r_path[2]), s=0.5, c='red')
 	plt.show()
+
 
 
 if __name__ == '__main__':
 	g_path = '/home/xhu/Code/dataset/poses/00.txt'
 	# drow_Ground_truth(g_path)
-	r_path = '/home/xhu/Code/ORB_SLAM2/Examples/Monocular/KeyFrameTrajectory.txt'
-	drow_compare(g_path,r_path)
+	r_path = '/home/xhu/Code/ORB_SLAM2/Examples/Stereo/CameraTrajectory.txt'
+
+	drow_compare(gen_data(g_path) ,gen_data(r_path))
