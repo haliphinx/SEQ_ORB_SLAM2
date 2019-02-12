@@ -84,7 +84,7 @@ def align(model,data):
 
     s = float(dots/norms)    
 
-    print ("scale: %f " % s) 
+    # print ("scale: %f " % s) 
     
     trans = data_mean - s*rot * model_mean
     
@@ -105,13 +105,31 @@ if __name__ == '__main__':
 	data= gen_data(ground_time, res_time, ground_data)
 	ground_points = np.asarray(get_coo(data))
 	re_points = np.asarray(get_points(res_time))
-	print(type(ground_points))
+	# print(type(ground_points))
 	rot,trans,trans_error,s = align(re_points, ground_points)
-	print(rot)
+	# print(rot)
 	re_fpoints = s*rot*re_points+trans
-	print(re_fpoints[0])
+	# print(re_fpoints[0])
+	# print(trans_error)
 	plt.scatter(ground_points[0], ground_points[2], s=0.1)
 	plt.scatter(list(re_fpoints[0]), list(re_fpoints[2]), s=0.1, c='red')
+	aa = list(re_fpoints[0])
+	x = aa[0].tolist()
+	aa = list(re_fpoints[2])
+	y = aa[0].tolist()
+
+	print ("compared_pose_pairs %d pairs"%(len(trans_error)))
+	print ("absolute_translational_error.rmse %f m"%np.sqrt(np.dot(trans_error,trans_error) / len(trans_error)))
+	print ("absolute_translational_error.mean %f m"%np.mean(trans_error))
+	print ("absolute_translational_error.median %f m"%np.median(trans_error))
+	print ("absolute_translational_error.std %f m"%np.std(trans_error))
+	print ("absolute_translational_error.min %f m"%np.min(trans_error))
+	print ("absolute_translational_error.max %f m"%np.max(trans_error))
+
+	for num in range(len(ground_points[0])):
+		plt.plot([ground_points[0][num], x[0][num]], [ground_points[2][num], y[0][num]], c = 'green')
+	
 	plt.show()
+
 
 
