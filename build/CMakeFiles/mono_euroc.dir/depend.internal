@@ -47,6 +47,7 @@ CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h

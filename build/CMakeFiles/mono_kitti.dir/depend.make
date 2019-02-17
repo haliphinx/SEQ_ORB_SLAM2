@@ -46,6 +46,7 @@ CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/MapDraw
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/MapPoint.h
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/ORBextractor.h
+CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/Sequence.h
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/System.h
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/Tracking.h
 CMakeFiles/mono_kitti.dir/Examples/Monocular/mono_kitti.cc.o: ../include/Viewer.h

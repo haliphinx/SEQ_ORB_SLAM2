@@ -46,6 +46,7 @@ CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/MapDra
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/MapPoint.h
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/ORBextractor.h
+CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/Sequence.h
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/System.h
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/Tracking.h
 CMakeFiles/stereo_kitti.dir/Examples/Stereo/stereo_kitti.cc.o: ../include/Viewer.h

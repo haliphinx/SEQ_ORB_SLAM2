@@ -46,6 +46,7 @@ CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/MapDrawer.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/MapPoint.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/ORBextractor.h
+CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Sequence.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/System.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Tracking.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Viewer.h

@@ -639,6 +639,8 @@ Frame.h
 ../include/Frame.h
 KeyFrameDatabase.h
 ../include/KeyFrameDatabase.h
+Sequence.h
+../include/Sequence.h
 mutex
 -
 
@@ -776,6 +778,10 @@ MapPoint.h
 Frame.h
 ../include/Frame.h
 
+../include/Sequence.h
+KeyFrame.h
+../include/KeyFrame.h
+
 ../include/Sim3Solver.h
 opencv2/opencv.hpp
 -
@@ -809,6 +815,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 Viewer.h
 ../include/Viewer.h
+Sequence.h
+../include/Sequence.h
 
 ../include/Tracking.h
 opencv2/core/core.hpp
@@ -1033,6 +1041,10 @@ Thirdparty/DBoW2/DUtils/Random.h
 /home/xhu/Code/ORB_SLAM2/src/Thirdparty/DBoW2/DUtils/Random.h
 algorithm
 -
+
+/home/xhu/Code/ORB_SLAM2/src/Sequence.cc
+Sequence.h
+/home/xhu/Code/ORB_SLAM2/src/Sequence.h
 
 /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
 Sim3Solver.h

@@ -35,6 +35,7 @@
 #include "KeyFrameDatabase.h"
 #include "ORBVocabulary.h"
 #include "Viewer.h"
+#include "Sequence.h"
 
 namespace ORB_SLAM2
 {
@@ -174,6 +175,9 @@ private:
     std::vector<MapPoint*> mTrackedMapPoints;
     std::vector<cv::KeyPoint> mTrackedKeyPointsUn;
     std::mutex mMutexState;
+
+    //Sequence vector
+    std::vector<Sequence*> mSeqList;
 };
 
 }// namespace ORB_SLAM

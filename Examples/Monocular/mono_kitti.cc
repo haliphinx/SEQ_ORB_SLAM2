@@ -126,9 +126,15 @@ int main(int argc, char **argv)
 
 void LoadImages(const string &strPathToSequence, vector<string> &vstrImageFilenames, vector<double> &vTimestamps)
 {
+    //ifstream -> read from an exist file
     ifstream fTimes;
     string strPathTimeFile = strPathToSequence + "/times.txt";
+
+    //c_str() -> return the address of the fisrt char in the string
     fTimes.open(strPathTimeFile.c_str());
+
+    //eof() -> the pointer is empty or at the end of the file
+    //load the time stamps to the vTimestamps
     while(!fTimes.eof())
     {
         string s;
@@ -151,6 +157,9 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageFilena
     for(int i=0; i<nTimes; i++)
     {
         stringstream ss;
+
+        //setw -> set the length of input i
+        //setfill -> if the input is shorter than 6, then fill 0 in the front of the string
         ss << setfill('0') << setw(6) << i;
         vstrImageFilenames[i] = strPrefixLeft + ss.str() + ".png";
     }

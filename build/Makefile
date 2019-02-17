@@ -768,6 +768,33 @@ src/PnPsolver.cc.s:
 	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/PnPsolver.cc.s
 .PHONY : src/PnPsolver.cc.s
 
+src/Sequence.o: src/Sequence.cc.o
+
+.PHONY : src/Sequence.o
+
+# target to build an object file
+src/Sequence.cc.o:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.o
+.PHONY : src/Sequence.cc.o
+
+src/Sequence.i: src/Sequence.cc.i
+
+.PHONY : src/Sequence.i
+
+# target to preprocess a source file
+src/Sequence.cc.i:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.i
+.PHONY : src/Sequence.cc.i
+
+src/Sequence.s: src/Sequence.cc.s
+
+.PHONY : src/Sequence.s
+
+# target to generate assembly for a file
+src/Sequence.cc.s:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.s
+.PHONY : src/Sequence.cc.s
+
 src/Sim3Solver.o: src/Sim3Solver.cc.o
 
 .PHONY : src/Sim3Solver.o
@@ -954,6 +981,9 @@ help:
 	@echo "... src/PnPsolver.o"
 	@echo "... src/PnPsolver.i"
 	@echo "... src/PnPsolver.s"
+	@echo "... src/Sequence.o"
+	@echo "... src/Sequence.i"
+	@echo "... src/Sequence.s"
 	@echo "... src/Sim3Solver.o"
 	@echo "... src/Sim3Solver.i"
 	@echo "... src/Sim3Solver.s"

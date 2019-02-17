@@ -401,6 +401,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Frame.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/Frame.cc
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
@@ -778,6 +779,7 @@ CMakeFiles/ORB_SLAM2.dir/src/FrameDrawer.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -1226,6 +1228,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Initializer.cc.o
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
  ../include/Optimizer.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -1668,6 +1671,7 @@ CMakeFiles/ORB_SLAM2.dir/src/KeyFrame.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/KeyFrame.cc
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
@@ -2016,6 +2020,7 @@ CMakeFiles/ORB_SLAM2.dir/src/KeyFrameDatabase.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/KeyFrameDatabase.cc
  /usr/local/include/opencv/cv.h
  /usr/local/include/opencv/cxcore.h
@@ -2197,6 +2202,7 @@ CMakeFiles/ORB_SLAM2.dir/src/LocalMapping.cc.o
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
  ../include/Optimizer.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -2645,6 +2651,7 @@ CMakeFiles/ORB_SLAM2.dir/src/LoopClosing.cc.o
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
  ../include/Optimizer.h
+ ../include/Sequence.h
  ../include/Sim3Solver.h
  ../include/System.h
  ../include/Tracking.h
@@ -3061,6 +3068,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Map.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/Map.cc
  /usr/local/include/opencv/cv.h
  /usr/local/include/opencv/cxcore.h
@@ -3212,6 +3220,7 @@ CMakeFiles/ORB_SLAM2.dir/src/MapDrawer.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/MapDrawer.cc
  /home/xhu/Code/Pangolin/build/src/include/pangolin/config.h
  /home/xhu/Code/Pangolin/include/pangolin/compat/type_traits.h
@@ -3600,6 +3609,7 @@ CMakeFiles/ORB_SLAM2.dir/src/MapPoint.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/MapPoint.cc
  /usr/local/include/opencv/cv.h
  /usr/local/include/opencv/cxcore.h
@@ -3890,6 +3900,7 @@ CMakeFiles/ORB_SLAM2.dir/src/ORBmatcher.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/ORBmatcher.cc
  /usr/local/include/opencv/cv.h
  /usr/local/include/opencv/cxcore.h
@@ -4096,6 +4107,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Optimizer.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/Optimizer.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -4582,7 +4594,159 @@ CMakeFiles/ORB_SLAM2.dir/src/PnPsolver.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/PnPsolver.h
+ ../include/Sequence.h
  /home/xhu/Code/ORB_SLAM2/src/PnPsolver.cc
+ /usr/local/include/opencv/cv.h
+ /usr/local/include/opencv/cxcore.h
+ /usr/local/include/opencv2/calib3d.hpp
+ /usr/local/include/opencv2/calib3d/calib3d_c.h
+ /usr/local/include/opencv2/core.hpp
+ /usr/local/include/opencv2/core/affine.hpp
+ /usr/local/include/opencv2/core/base.hpp
+ /usr/local/include/opencv2/core/bufferpool.hpp
+ /usr/local/include/opencv2/core/check.hpp
+ /usr/local/include/opencv2/core/core.hpp
+ /usr/local/include/opencv2/core/core_c.h
+ /usr/local/include/opencv2/core/cuda.hpp
+ /usr/local/include/opencv2/core/cuda.inl.hpp
+ /usr/local/include/opencv2/core/cuda_types.hpp
+ /usr/local/include/opencv2/core/cv_cpu_dispatch.h
+ /usr/local/include/opencv2/core/cv_cpu_helper.h
+ /usr/local/include/opencv2/core/cvdef.h
+ /usr/local/include/opencv2/core/cvstd.hpp
+ /usr/local/include/opencv2/core/cvstd.inl.hpp
+ /usr/local/include/opencv2/core/fast_math.hpp
+ /usr/local/include/opencv2/core/hal/interface.h
+ /usr/local/include/opencv2/core/mat.hpp
+ /usr/local/include/opencv2/core/mat.inl.hpp
+ /usr/local/include/opencv2/core/matx.hpp
+ /usr/local/include/opencv2/core/neon_utils.hpp
+ /usr/local/include/opencv2/core/operations.hpp
+ /usr/local/include/opencv2/core/optim.hpp
+ /usr/local/include/opencv2/core/ovx.hpp
+ /usr/local/include/opencv2/core/persistence.hpp
+ /usr/local/include/opencv2/core/ptr.inl.hpp
+ /usr/local/include/opencv2/core/saturate.hpp
+ /usr/local/include/opencv2/core/traits.hpp
+ /usr/local/include/opencv2/core/types.hpp
+ /usr/local/include/opencv2/core/types_c.h
+ /usr/local/include/opencv2/core/utility.hpp
+ /usr/local/include/opencv2/core/version.hpp
+ /usr/local/include/opencv2/core/vsx_utils.hpp
+ /usr/local/include/opencv2/dnn.hpp
+ /usr/local/include/opencv2/dnn/dict.hpp
+ /usr/local/include/opencv2/dnn/dnn.hpp
+ /usr/local/include/opencv2/dnn/dnn.inl.hpp
+ /usr/local/include/opencv2/dnn/layer.hpp
+ /usr/local/include/opencv2/features2d.hpp
+ /usr/local/include/opencv2/flann.hpp
+ /usr/local/include/opencv2/flann/all_indices.h
+ /usr/local/include/opencv2/flann/allocator.h
+ /usr/local/include/opencv2/flann/any.h
+ /usr/local/include/opencv2/flann/autotuned_index.h
+ /usr/local/include/opencv2/flann/composite_index.h
+ /usr/local/include/opencv2/flann/config.h
+ /usr/local/include/opencv2/flann/defines.h
+ /usr/local/include/opencv2/flann/dist.h
+ /usr/local/include/opencv2/flann/dynamic_bitset.h
+ /usr/local/include/opencv2/flann/flann_base.hpp
+ /usr/local/include/opencv2/flann/general.h
+ /usr/local/include/opencv2/flann/ground_truth.h
+ /usr/local/include/opencv2/flann/heap.h
+ /usr/local/include/opencv2/flann/hierarchical_clustering_index.h
+ /usr/local/include/opencv2/flann/index_testing.h
+ /usr/local/include/opencv2/flann/kdtree_index.h
+ /usr/local/include/opencv2/flann/kdtree_single_index.h
+ /usr/local/include/opencv2/flann/kmeans_index.h
+ /usr/local/include/opencv2/flann/linear_index.h
+ /usr/local/include/opencv2/flann/logger.h
+ /usr/local/include/opencv2/flann/lsh_index.h
+ /usr/local/include/opencv2/flann/lsh_table.h
+ /usr/local/include/opencv2/flann/matrix.h
+ /usr/local/include/opencv2/flann/miniflann.hpp
+ /usr/local/include/opencv2/flann/nn_index.h
+ /usr/local/include/opencv2/flann/params.h
+ /usr/local/include/opencv2/flann/random.h
+ /usr/local/include/opencv2/flann/result_set.h
+ /usr/local/include/opencv2/flann/sampling.h
+ /usr/local/include/opencv2/flann/saving.h
+ /usr/local/include/opencv2/flann/timer.h
+ /usr/local/include/opencv2/highgui.hpp
+ /usr/local/include/opencv2/highgui/highgui_c.h
+ /usr/local/include/opencv2/imgcodecs.hpp
+ /usr/local/include/opencv2/imgcodecs/imgcodecs_c.h
+ /usr/local/include/opencv2/imgproc.hpp
+ /usr/local/include/opencv2/imgproc/imgproc_c.h
+ /usr/local/include/opencv2/imgproc/types_c.h
+ /usr/local/include/opencv2/ml.hpp
+ /usr/local/include/opencv2/ml/ml.inl.hpp
+ /usr/local/include/opencv2/objdetect.hpp
+ /usr/local/include/opencv2/objdetect/detection_based_tracker.hpp
+ /usr/local/include/opencv2/objdetect/objdetect_c.h
+ /usr/local/include/opencv2/opencv.hpp
+ /usr/local/include/opencv2/opencv_modules.hpp
+ /usr/local/include/opencv2/photo.hpp
+ /usr/local/include/opencv2/photo/photo_c.h
+ /usr/local/include/opencv2/shape.hpp
+ /usr/local/include/opencv2/shape/emdL1.hpp
+ /usr/local/include/opencv2/shape/hist_cost.hpp
+ /usr/local/include/opencv2/shape/shape_distance.hpp
+ /usr/local/include/opencv2/shape/shape_transformer.hpp
+ /usr/local/include/opencv2/stitching.hpp
+ /usr/local/include/opencv2/stitching/detail/blenders.hpp
+ /usr/local/include/opencv2/stitching/detail/camera.hpp
+ /usr/local/include/opencv2/stitching/detail/exposure_compensate.hpp
+ /usr/local/include/opencv2/stitching/detail/matchers.hpp
+ /usr/local/include/opencv2/stitching/detail/motion_estimators.hpp
+ /usr/local/include/opencv2/stitching/detail/seam_finders.hpp
+ /usr/local/include/opencv2/stitching/detail/util.hpp
+ /usr/local/include/opencv2/stitching/detail/util_inl.hpp
+ /usr/local/include/opencv2/stitching/detail/warpers.hpp
+ /usr/local/include/opencv2/stitching/detail/warpers_inl.hpp
+ /usr/local/include/opencv2/stitching/warpers.hpp
+ /usr/local/include/opencv2/superres.hpp
+ /usr/local/include/opencv2/superres/optical_flow.hpp
+ /usr/local/include/opencv2/video.hpp
+ /usr/local/include/opencv2/video/background_segm.hpp
+ /usr/local/include/opencv2/video/tracking.hpp
+ /usr/local/include/opencv2/video/tracking_c.h
+ /usr/local/include/opencv2/videoio.hpp
+ /usr/local/include/opencv2/videoio/videoio_c.h
+ /usr/local/include/opencv2/videostab.hpp
+ /usr/local/include/opencv2/videostab/deblurring.hpp
+ /usr/local/include/opencv2/videostab/fast_marching.hpp
+ /usr/local/include/opencv2/videostab/fast_marching_inl.hpp
+ /usr/local/include/opencv2/videostab/frame_source.hpp
+ /usr/local/include/opencv2/videostab/global_motion.hpp
+ /usr/local/include/opencv2/videostab/inpainting.hpp
+ /usr/local/include/opencv2/videostab/log.hpp
+ /usr/local/include/opencv2/videostab/motion_core.hpp
+ /usr/local/include/opencv2/videostab/motion_stabilizing.hpp
+ /usr/local/include/opencv2/videostab/optical_flow.hpp
+ /usr/local/include/opencv2/videostab/outlier_rejection.hpp
+ /usr/local/include/opencv2/videostab/ring_buffer.hpp
+ /usr/local/include/opencv2/videostab/stabilizer.hpp
+ /usr/local/include/opencv2/videostab/wobble_suppression.hpp
+ /usr/local/include/opencv2/xfeatures2d/cuda.hpp
+CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.o
+ ..//Thirdparty/DBoW2/DBoW2/BowVector.h
+ ..//Thirdparty/DBoW2/DBoW2/FORB.h
+ ..//Thirdparty/DBoW2/DBoW2/FeatureVector.h
+ ..//Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h
+ ../Thirdparty/DBoW2/DBoW2/BowVector.h
+ ../Thirdparty/DBoW2/DBoW2/FClass.h
+ ../Thirdparty/DBoW2/DBoW2/FeatureVector.h
+ ../Thirdparty/DBoW2/DBoW2/ScoringObject.h
+ ../Thirdparty/DBoW2/DUtils/Random.h
+ ../include/Frame.h
+ ../include/KeyFrame.h
+ ../include/KeyFrameDatabase.h
+ ../include/Map.h
+ ../include/MapPoint.h
+ ../include/ORBVocabulary.h
+ ../include/ORBextractor.h
+ ../include/Sequence.h
+ /home/xhu/Code/ORB_SLAM2/src/Sequence.cc
  /usr/local/include/opencv/cv.h
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
@@ -4734,6 +4898,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Sim3Solver.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/ORBmatcher.h
+ ../include/Sequence.h
  ../include/Sim3Solver.h
  /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
  /usr/local/include/opencv/cv.h
@@ -4917,6 +5082,7 @@ CMakeFiles/ORB_SLAM2.dir/src/System.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -5366,6 +5532,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Tracking.cc.o
  ../include/ORBmatcher.h
  ../include/Optimizer.h
  ../include/PnPsolver.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h
@@ -5810,6 +5977,7 @@ CMakeFiles/ORB_SLAM2.dir/src/Viewer.cc.o
  ../include/MapPoint.h
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
+ ../include/Sequence.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h

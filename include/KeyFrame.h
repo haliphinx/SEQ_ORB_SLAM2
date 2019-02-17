@@ -28,6 +28,7 @@
 #include "ORBextractor.h"
 #include "Frame.h"
 #include "KeyFrameDatabase.h"
+#include "Sequence.h"
 
 #include <mutex>
 
@@ -39,6 +40,7 @@ class Map;
 class MapPoint;
 class Frame;
 class KeyFrameDatabase;
+class Sequence;
 
 class KeyFrame
 {
@@ -187,6 +189,10 @@ public:
     const int mnMaxX;
     const int mnMaxY;
     const cv::Mat mK;
+
+    //Sequence pointer to the sequence the keyframe belongs.
+
+    Sequence* bSeq;
 
 
     // The following variables need to be accessed trough a mutex to be thread safe.

@@ -46,6 +46,7 @@ CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/MapDraw
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/MapPoint.h
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/ORBextractor.h
+CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/Sequence.h
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/System.h
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/Tracking.h
 CMakeFiles/mono_euroc.dir/Examples/Monocular/mono_euroc.cc.o: ../include/Viewer.h
