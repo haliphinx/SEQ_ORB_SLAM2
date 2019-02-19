@@ -2,11 +2,11 @@
 
 namespace ORB_SLAM2{
 
-Sequence::Sequence(KeyFrame* pKF):seqLength(1), firstKF(pKF){
-	pRotation = pKF->GetRotation();
+Sequence::Sequence():seqLength(0){
+
 }//Sequence::Sequence
 
-void Sequence::add(KeyFrame* pKF){
+void Sequence::add(){
 	seqLength++;
 }//Sequence::add
 
@@ -16,13 +16,16 @@ void Sequence::erase(KeyFrame* pKF){
 
 void Sequence::clear(){
 	seqLength = 0;
-	firstKF = NULL;
 }//Sequence::clear
 
-bool Sequence::NewSeqVarify(KeyFrame* pKF){
-	if(seqLength>50){
+bool Sequence::NewSeqVarify(cv::Mat mTcw){
+	int lenThresh = 10;
+	
+	if(seqLength>=lenThresh){
 		return true;
 	}//if
+
+
 
 
 

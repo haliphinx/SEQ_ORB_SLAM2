@@ -46,6 +46,7 @@ class KeyFrame
 {
 public:
     KeyFrame(Frame &F, Map* pMap, KeyFrameDatabase* pKFDB);
+    KeyFrame(Frame &F, Map* pMap, KeyFrameDatabase* pKFDB, std::vector<Sequence*> &mSeqList);
 
     // Pose functions
     void SetPose(const cv::Mat &Tcw);
@@ -193,7 +194,7 @@ public:
     //Sequence pointer to the sequence the keyframe belongs.
 
     Sequence* bSeq;
-
+    std::vector<Sequence*> mnSeqList;
 
     // The following variables need to be accessed trough a mutex to be thread safe.
 protected:

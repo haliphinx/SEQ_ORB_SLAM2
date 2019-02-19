@@ -122,6 +122,8 @@ public:
     int GetTrackingState();
     std::vector<MapPoint*> GetTrackedMapPoints();
     std::vector<cv::KeyPoint> GetTrackedKeyPointsUn();
+    //Sequence vector
+    std::vector<Sequence*> mSeqList;
 
 private:
 
@@ -176,8 +178,7 @@ private:
     std::vector<cv::KeyPoint> mTrackedKeyPointsUn;
     std::mutex mMutexState;
 
-    //Sequence vector
-    std::vector<Sequence*> mSeqList;
+    
 };
 
 }// namespace ORB_SLAM

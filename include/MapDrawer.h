@@ -56,6 +56,7 @@ private:
 
     cv::Mat mCameraPose;
 
+
     std::mutex mMutexCamera;
 };
 

@@ -541,6 +541,8 @@ MapDrawer.h
 ../include/MapDrawer.h
 System.h
 ../include/System.h
+Sequence.h
+../include/Sequence.h
 mutex
 -
 

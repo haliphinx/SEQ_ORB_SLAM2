@@ -8,15 +8,13 @@ namespace ORB_SLAM2{
 
 	class Sequence{
 	public:
-		Sequence(KeyFrame* pKF);
-		void add(KeyFrame* pKF);
+		Sequence();
+		void add();
 		void erase(KeyFrame* pKF);
 		void clear();
-		bool NewSeqVarify(KeyFrame* pKF);
+		bool NewSeqVarify(cv::Mat mTcw);
 
 		int seqLength;
-		KeyFrame* firstKF;
-		cv::Mat pRotation;
 
 
 	};//Sequence
