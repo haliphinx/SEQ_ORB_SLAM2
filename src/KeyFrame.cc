@@ -86,17 +86,16 @@ KeyFrame::KeyFrame(Frame &F, Map *pMap, KeyFrameDatabase *pKFDB, std::vector<Seq
     }
     if(mSeqList.size()==0){
         mSeqList.push_back(new Sequence());
-        cout<<"aa"<<mSeqList.size()<<endl;
         
     }
     else if(mSeqList.back()->NewSeqVarify(F.mTcw)){
         mSeqList.push_back(new Sequence());
         
     }
-    cout<<mSeqList.size()<<endl;
+
     bSeq = mSeqList.back();
     mSeqList.back()->add();
-    cout<<"qq"<<mSeqList.back()->seqLength<<endl;
+
     SetPose(F.mTcw);    
 }
 

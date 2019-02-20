@@ -3,7 +3,9 @@
 namespace ORB_SLAM2{
 
 Sequence::Sequence():seqLength(0){
-
+	c1 = rand()/double(RAND_MAX);
+	c2 = rand()/double(RAND_MAX);
+	c3 = rand()/double(RAND_MAX);
 }//Sequence::Sequence
 
 void Sequence::add(){

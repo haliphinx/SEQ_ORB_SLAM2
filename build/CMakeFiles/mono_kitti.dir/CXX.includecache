@@ -483,6 +483,8 @@ opencv/cv.h
 ../include/Sequence.h
 KeyFrame.h
 ../include/KeyFrame.h
+stdlib.h
+../include/stdlib.h
 
 ../include/System.h
 string

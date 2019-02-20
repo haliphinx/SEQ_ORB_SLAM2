@@ -2,6 +2,7 @@
 #define SEQUENCE_H
 
 #include "KeyFrame.h"
+#include "stdlib.h"
 
 namespace ORB_SLAM2{
 	class KeyFrame;
@@ -15,6 +16,9 @@ namespace ORB_SLAM2{
 		bool NewSeqVarify(cv::Mat mTcw);
 
 		int seqLength;
+		float c1;
+		float c2;
+		float c3;
 
 
 	};//Sequence

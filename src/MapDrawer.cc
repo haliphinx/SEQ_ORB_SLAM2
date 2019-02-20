@@ -85,7 +85,6 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
     const float &w = mKeyFrameSize;
     const float h = w*0.75;
     const float z = w*0.6;
-    int ii = 0;
 
     const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
     Sequence* pSeq = vpKFs.front()->bSeq;
@@ -103,22 +102,9 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
             glMultMatrixf(Twc.ptr<GLfloat>(0));
 
             glLineWidth(mKeyFrameLineWidth);
-            if(pKF->bSeq!=pSeq){
-                ii=(ii+1)%3;
-            }
-            switch (ii){
-            case 0:
-                glColor3f(0.0f,0.0f,1.0f);
-                break;
-            case 1:
-                glColor3f(0.0f,1.0f,0.0f);
-                break;
-            case 2:
-                glColor3f(1.0f,0.0f,0.0f);
-                break;
-            }
+            
             pSeq = pKF->bSeq;
-            // glColor3f(0.0f,0.0f,1.0f);
+            glColor3f(pSeq->c1,pSeq->c2,pSeq->c3);
             glBegin(GL_LINES);
             glVertex3f(0,0,0);
             glVertex3f(w,h,z);
