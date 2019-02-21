@@ -84,19 +84,20 @@ KeyFrame::KeyFrame(Frame &F, Map *pMap, KeyFrameDatabase *pKFDB, std::vector<Seq
         for(int j=0; j<mnGridRows; j++)
             mGrid[i][j] = F.mGrid[i][j];
     }
+    SetPose(F.mTcw);
     if(mSeqList.size()==0){
-        mSeqList.push_back(new Sequence());
+        mSeqList.push_back(new Sequence(this));
         
     }
-    else if(mSeqList.back()->NewSeqVarify(F.mTcw)){
-        mSeqList.push_back(new Sequence());
+    else if(mSeqList.back()->NewSeqVarify(this)){
+        mSeqList.push_back(new Sequence(this));
         
     }
 
     bSeq = mSeqList.back();
-    mSeqList.back()->add();
+    mSeqList.back()->add(this);
 
-    SetPose(F.mTcw);    
+        
 }
 
 

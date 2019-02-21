@@ -1051,6 +1051,8 @@ algorithm
 /home/xhu/Code/ORB_SLAM2/src/Sequence.cc
 Sequence.h
 /home/xhu/Code/ORB_SLAM2/src/Sequence.h
+math.h
+-
 
 /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
 Sim3Solver.h

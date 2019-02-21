@@ -9,13 +9,20 @@ namespace ORB_SLAM2{
 
 	class Sequence{
 	public:
-		Sequence();
-		void add();
+		Sequence(KeyFrame* pKF);
+		void add(KeyFrame* pKF);
 		void erase(KeyFrame* pKF);
 		void clear();
-		bool NewSeqVarify(cv::Mat mTcw);
+		bool NewSeqVarify(KeyFrame* pKF);
+
+		KeyFrame* cKF;
 
 		int seqLength;
+
+		float dAngle;
+
+
+		//for the frame drawer color
 		float c1;
 		float c2;
 		float c3;
