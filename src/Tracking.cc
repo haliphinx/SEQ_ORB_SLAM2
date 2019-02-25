@@ -56,6 +56,7 @@ Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer,
     float cx = fSettings["Camera.cx"];
     float cy = fSettings["Camera.cy"];
 
+    //eye: diagonal matrix
     cv::Mat K = cv::Mat::eye(3,3,CV_32F);
     K.at<float>(0,0) = fx;
     K.at<float>(1,1) = fy;

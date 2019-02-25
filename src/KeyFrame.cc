@@ -93,9 +93,11 @@ KeyFrame::KeyFrame(Frame &F, Map *pMap, KeyFrameDatabase *pKFDB, std::vector<Seq
         mSeqList.push_back(new Sequence(this));
         
     }
-
+    else{
+        mSeqList.back()->add(this);
+    }
     bSeq = mSeqList.back();
-    mSeqList.back()->add(this);
+    // cout<<bSeq->NumOfKeyPoints()<<";"<<bSeq->NumOfKeyFrames()<<endl;
 
         
 }

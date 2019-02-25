@@ -14,8 +14,11 @@ namespace ORB_SLAM2{
 		void erase(KeyFrame* pKF);
 		void clear();
 		bool NewSeqVarify(KeyFrame* pKF);
+		float CalAngle(KeyFrame* cKF, KeyFrame* pKF);
+		int NumOfKeyFrames();
+		int NumOfKeyPoints();
+		std::vector<cv::Mat> GetAllDescriptors();
 
-		KeyFrame* cKF;
 
 		int seqLength;
 
@@ -26,6 +29,14 @@ namespace ORB_SLAM2{
 		float c1;
 		float c2;
 		float c3;
+
+		//BoW
+    	DBoW2::BowVector seqBowVec;
+    	DBoW2::FeatureVector seqFeatVec;
+
+	protected:
+
+		std::vector<KeyFrame*> KFList;
 
 
 	};//Sequence
