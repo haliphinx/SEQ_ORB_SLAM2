@@ -3,6 +3,7 @@
 
 #include "KeyFrame.h"
 #include "stdlib.h"
+#include "Converter.h"
 
 namespace ORB_SLAM2{
 	class KeyFrame;
@@ -17,7 +18,8 @@ namespace ORB_SLAM2{
 		float CalAngle(KeyFrame* cKF, KeyFrame* pKF);
 		int NumOfKeyFrames();
 		int NumOfKeyPoints();
-		std::vector<cv::Mat> GetAllDescriptors();
+		void ComputeBoW();
+		cv::Mat GetDescriptors();
 
 
 		int seqLength;

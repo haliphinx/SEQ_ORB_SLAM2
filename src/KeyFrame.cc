@@ -90,6 +90,8 @@ KeyFrame::KeyFrame(Frame &F, Map *pMap, KeyFrameDatabase *pKFDB, std::vector<Seq
         
     }
     else if(mSeqList.back()->NewSeqVarify(this)){
+        // mSeqList.back()->ComputeBoW();
+        // cout<<mSeqList.back()->seqBowVec.size()<<endl;
         mSeqList.push_back(new Sequence(this));
         
     }

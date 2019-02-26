@@ -783,6 +783,8 @@ KeyFrame.h
 ../include/KeyFrame.h
 stdlib.h
 ../include/stdlib.h
+Converter.h
+../include/Converter.h
 
 ../include/Sim3Solver.h
 opencv2/opencv.hpp

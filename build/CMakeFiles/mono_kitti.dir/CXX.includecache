@@ -70,6 +70,22 @@ types_six_dof_expmap.h
 sim3.h
 ../Thirdparty/g2o/g2o/types/sim3.h
 
+..//Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
+../core/base_vertex.h
+../Thirdparty/g2o/g2o/core/base_vertex.h
+../core/base_binary_edge.h
+../Thirdparty/g2o/g2o/core/base_binary_edge.h
+../core/base_unary_edge.h
+../Thirdparty/g2o/g2o/core/base_unary_edge.h
+se3_ops.h
+../Thirdparty/g2o/g2o/types/se3_ops.h
+se3quat.h
+../Thirdparty/g2o/g2o/types/se3quat.h
+types_sba.h
+../Thirdparty/g2o/g2o/types/types_sba.h
+Eigen/Geometry
+-
+
 ../Thirdparty/DBoW2/DBoW2/BowVector.h
 iostream
 -
@@ -324,6 +340,16 @@ types_sba.h
 Eigen/Geometry
 -
 
+../include/Converter.h
+opencv2/core/core.hpp
+-
+Eigen/Dense
+-
+Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
+../include/Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
+Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h
+../include/Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h
+
 ../include/Frame.h
 vector
 -
@@ -485,6 +511,8 @@ KeyFrame.h
 ../include/KeyFrame.h
 stdlib.h
 ../include/stdlib.h
+Converter.h
+../include/Converter.h
 
 ../include/System.h
 string

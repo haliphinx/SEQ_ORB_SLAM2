@@ -102,6 +102,26 @@ int Sequence::NumOfKeyPoints(){
 	return num;
 }
 
+void Sequence::ComputeBoW()
+{
+    if(seqBowVec.empty() || seqFeatVec.empty())
+    {
+        cv::Mat seqDescriptors = GetDescriptors();
+
+        vector<cv::Mat> vCurrentDesc = Converter::toDescriptorVector(seqDescriptors);
+        // Feature vector associate features with nodes in the 4th level (from leaves up)
+        // We assume the vocabulary tree has 6 levels, change the 4 otherwise
+        KFList.front()->mpORBvocabulary->transform(vCurrentDesc,seqBowVec,seqFeatVec,4);
+    }
+}
+
+cv::Mat Sequence::GetDescriptors(){
+	cv::Mat tDes = KFList.front()->mDescriptors;
+	for(int i = 0; i<static_cast<int>(KFList.size()); i++){
+		cv::vconcat(tDes, KFList[i]->mDescriptors, tDes);
+	}
+	return tDes;
+}
 
 
 }//ORB_SLAM2
