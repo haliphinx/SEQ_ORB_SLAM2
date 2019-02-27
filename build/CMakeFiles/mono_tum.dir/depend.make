@@ -49,6 +49,7 @@ CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/MapPoint.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/ORBextractor.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/Sequence.h
+CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/SequenceDatabase.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/System.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/Tracking.h
 CMakeFiles/mono_tum.dir/Examples/Monocular/mono_tum.cc.o: ../include/Viewer.h

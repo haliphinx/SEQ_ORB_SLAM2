@@ -11,6 +11,7 @@ Sequence::Sequence(KeyFrame* pKF):seqLength(1){
 	// seqKeys.clear();
 	// KFList.clear();
 	KFList.push_back(pKF);
+	pKF->bSeq = this;
 
 	//random color for each sequence
 	c1 = rand()/double(RAND_MAX);
@@ -26,6 +27,7 @@ void Sequence::add(KeyFrame* pKF){
 	dAngle = CalAngle(KFList.back(), pKF);
 	
 	KFList.push_back(pKF);
+	pKF->bSeq = this;
 
 
 }//Sequence::add
@@ -102,7 +104,7 @@ int Sequence::NumOfKeyPoints(){
 	return num;
 }
 
-void Sequence::ComputeBoW()
+void Sequence::ComputeBoW(ORBVocabulary* voc)
 {
     if(seqBowVec.empty() || seqFeatVec.empty())
     {
@@ -111,7 +113,7 @@ void Sequence::ComputeBoW()
         vector<cv::Mat> vCurrentDesc = Converter::toDescriptorVector(seqDescriptors);
         // Feature vector associate features with nodes in the 4th level (from leaves up)
         // We assume the vocabulary tree has 6 levels, change the 4 otherwise
-        KFList.front()->mpORBvocabulary->transform(vCurrentDesc,seqBowVec,seqFeatVec,4);
+        voc->transform(vCurrentDesc,seqBowVec,seqFeatVec,4);
     }
 }
 

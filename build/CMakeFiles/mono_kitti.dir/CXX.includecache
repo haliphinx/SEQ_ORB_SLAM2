@@ -405,6 +405,8 @@ KeyFrameDatabase.h
 ../include/KeyFrameDatabase.h
 Sequence.h
 ../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 mutex
 -
 
@@ -514,6 +516,14 @@ stdlib.h
 Converter.h
 ../include/Converter.h
 
+../include/SequenceDatabase.h
+Sequence.h
+../include/Sequence.h
+ORBVocabulary.h
+../include/ORBVocabulary.h
+KeyFrame.h
+../include/KeyFrame.h
+
 ../include/System.h
 string
 -
@@ -539,8 +549,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 Viewer.h
 ../include/Viewer.h
-Sequence.h
-../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 
 ../include/Tracking.h
 opencv2/core/core.hpp

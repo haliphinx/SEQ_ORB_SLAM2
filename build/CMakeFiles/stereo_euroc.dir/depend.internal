@@ -50,6 +50,7 @@ CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o
  ../include/ORBVocabulary.h
  ../include/ORBextractor.h
  ../include/Sequence.h
+ ../include/SequenceDatabase.h
  ../include/System.h
  ../include/Tracking.h
  ../include/Viewer.h

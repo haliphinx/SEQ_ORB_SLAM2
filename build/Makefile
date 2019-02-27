@@ -795,6 +795,33 @@ src/Sequence.cc.s:
 	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.s
 .PHONY : src/Sequence.cc.s
 
+src/SequenceDatabase.o: src/SequenceDatabase.cc.o
+
+.PHONY : src/SequenceDatabase.o
+
+# target to build an object file
+src/SequenceDatabase.cc.o:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/SequenceDatabase.cc.o
+.PHONY : src/SequenceDatabase.cc.o
+
+src/SequenceDatabase.i: src/SequenceDatabase.cc.i
+
+.PHONY : src/SequenceDatabase.i
+
+# target to preprocess a source file
+src/SequenceDatabase.cc.i:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/SequenceDatabase.cc.i
+.PHONY : src/SequenceDatabase.cc.i
+
+src/SequenceDatabase.s: src/SequenceDatabase.cc.s
+
+.PHONY : src/SequenceDatabase.s
+
+# target to generate assembly for a file
+src/SequenceDatabase.cc.s:
+	$(MAKE) -f CMakeFiles/ORB_SLAM2.dir/build.make CMakeFiles/ORB_SLAM2.dir/src/SequenceDatabase.cc.s
+.PHONY : src/SequenceDatabase.cc.s
+
 src/Sim3Solver.o: src/Sim3Solver.cc.o
 
 .PHONY : src/Sim3Solver.o
@@ -984,6 +1011,9 @@ help:
 	@echo "... src/Sequence.o"
 	@echo "... src/Sequence.i"
 	@echo "... src/Sequence.s"
+	@echo "... src/SequenceDatabase.o"
+	@echo "... src/SequenceDatabase.i"
+	@echo "... src/SequenceDatabase.s"
 	@echo "... src/Sim3Solver.o"
 	@echo "... src/Sim3Solver.i"
 	@echo "... src/Sim3Solver.s"

@@ -29,6 +29,7 @@
 #include "Frame.h"
 #include "KeyFrameDatabase.h"
 #include "Sequence.h"
+#include "SequenceDatabase.h"
 
 #include <mutex>
 
@@ -41,12 +42,13 @@ class MapPoint;
 class Frame;
 class KeyFrameDatabase;
 class Sequence;
+class SequenceDatabase;
 
 class KeyFrame
 {
 public:
     KeyFrame(Frame &F, Map* pMap, KeyFrameDatabase* pKFDB);
-    KeyFrame(Frame &F, Map* pMap, KeyFrameDatabase* pKFDB, std::vector<Sequence*> &mSeqList);
+    KeyFrame(Frame &F, Map* pMap, KeyFrameDatabase* pKFDB, SequenceDatabase* mSeqDatabase);
 
     // Pose functions
     void SetPose(const cv::Mat &Tcw);
@@ -194,7 +196,6 @@ public:
     //Sequence pointer to the sequence the keyframe belongs.
 
     Sequence* bSeq;
-    std::vector<Sequence*> mnSeqList;
 
     // The following variables need to be accessed trough a mutex to be thread safe.
 protected:

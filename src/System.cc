@@ -75,6 +75,10 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     //Create KeyFrame Database
     mpKeyFrameDatabase = new KeyFrameDatabase(*mpVocabulary);
 
+    //Creat Sequence Database
+
+    mSeqDatabase = new SequenceDatabase(mpVocabulary);
+
     //Create the Map
     mpMap = new Map();
 

@@ -18,7 +18,7 @@ namespace ORB_SLAM2{
 		float CalAngle(KeyFrame* cKF, KeyFrame* pKF);
 		int NumOfKeyFrames();
 		int NumOfKeyPoints();
-		void ComputeBoW();
+		void ComputeBoW(ORBVocabulary* voc);
 		cv::Mat GetDescriptors();
 
 
