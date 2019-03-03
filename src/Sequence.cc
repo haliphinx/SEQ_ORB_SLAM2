@@ -4,7 +4,7 @@
 namespace ORB_SLAM2{
 
 
-Sequence::Sequence(KeyFrame* pKF):seqLength(1){
+Sequence::Sequence(KeyFrame* pKF, int id):seqId(id),seqLength(1){
 	
 	dAngle = 0;
 
@@ -47,7 +47,7 @@ void Sequence::clear(){
 }//Sequence::clear
 
 bool Sequence::NewSeqVarify(KeyFrame* pKF){
-	int lenThresh = 20;
+	int lenThresh = 12;
 	float angThresh = 0.086;
 
 	float ang = CalAngle(KFList.back(), pKF);

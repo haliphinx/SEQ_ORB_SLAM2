@@ -28,10 +28,11 @@
 namespace ORB_SLAM2
 {
 
-LocalMapping::LocalMapping(Map *pMap, const float bMonocular):
+LocalMapping::LocalMapping(Map *pMap, const float bMonocular, SequenceDatabase* mSeqDatabase):
     mbMonocular(bMonocular), mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mbAbortBA(false), mbStopped(false), mbStopRequested(false), mbNotStop(false), mbAcceptKeyFrames(true)
 {
+    LSeqDatabase = mSeqDatabase;
 }
 
 void LocalMapping::SetLoopCloser(LoopClosing* pLoopCloser)
@@ -134,6 +135,7 @@ void LocalMapping::ProcessNewKeyFrame()
     }
 
     // Compute Bags of Words structures
+
     mpCurrentKeyFrame->ComputeBoW();
 
     // Associate MapPoints to the new keyframe and update normal and descriptor
@@ -163,6 +165,9 @@ void LocalMapping::ProcessNewKeyFrame()
     // Update links in the Covisibility Graph
     mpCurrentKeyFrame->UpdateConnections();
 
+    //Insert keyframe into sequence
+    LSeqDatabase->AddNewKeyFrame(mpCurrentKeyFrame);
+    
     // Insert Keyframe in Map
     mpMap->AddKeyFrame(mpCurrentKeyFrame);
 }

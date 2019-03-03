@@ -14,6 +14,7 @@ namespace ORB_SLAM2{
 		void AddNewKeyFrame(KeyFrame* pKF);
 		void CreateNewSequence(KeyFrame* pKF);
 		void EndCurrenrSequence();
+		std::vector<Sequence*> FindSeqLoopCandidate(Sequence* Seq);
 
 		//Sequence vector
 		ORBVocabulary* mpVocabulary;

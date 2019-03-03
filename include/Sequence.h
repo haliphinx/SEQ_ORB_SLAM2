@@ -10,7 +10,7 @@ namespace ORB_SLAM2{
 
 	class Sequence{
 	public:
-		Sequence(KeyFrame* pKF);
+		Sequence(KeyFrame* pKF, int id);
 		void add(KeyFrame* pKF);
 		void erase(KeyFrame* pKF);
 		void clear();
@@ -21,6 +21,7 @@ namespace ORB_SLAM2{
 		void ComputeBoW(ORBVocabulary* voc);
 		cv::Mat GetDescriptors();
 
+		int seqId;
 
 		int seqLength;
 

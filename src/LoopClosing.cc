@@ -35,12 +35,13 @@
 namespace ORB_SLAM2
 {
 
-LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale):
+LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale, SequenceDatabase* mSeqDatabase):
     mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mpKeyFrameDB(pDB), mpORBVocabulary(pVoc), mpMatchedKF(NULL), mLastLoopKFid(0), mbRunningGBA(false), mbFinishedGBA(true),
     mbStopGBA(false), mpThreadGBA(NULL), mbFixScale(bFixScale), mnFullBAIdx(0)
 {
     mnCovisibilityConsistencyTh = 3;
+    LSeqDatabase = mSeqDatabase;
 }
 
 void LoopClosing::SetTracker(Tracking *pTracker)
@@ -271,6 +272,7 @@ bool LoopClosing::ComputeSim3()
         }
         else
         {
+            std::cout<<"loop:"<<mpCurrentKF->bSeq->seqId<<","<<pKF->bSeq->seqId<<std::endl;
             Sim3Solver* pSolver = new Sim3Solver(mpCurrentKF,pKF,vvpMapPointMatches[i],mbFixScale);
             pSolver->SetRansacParameters(0.99,20,300);
             vpSim3Solvers[i] = pSolver;
