@@ -20,6 +20,7 @@ namespace ORB_SLAM2{
 		int NumOfKeyPoints();
 		void ComputeBoW(ORBVocabulary* voc);
 		cv::Mat GetDescriptors();
+		KeyFrame* GetKeyFrame(int idx);
 
 		int seqId;
 

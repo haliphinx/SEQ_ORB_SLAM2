@@ -89,6 +89,8 @@ protected:
 
     bool DetectLoop();
 
+    bool DetectLoopInRange();
+
     bool DetectSeqLoop();
 
     bool ComputeSim3();

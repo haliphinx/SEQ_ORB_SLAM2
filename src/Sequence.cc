@@ -125,5 +125,9 @@ cv::Mat Sequence::GetDescriptors(){
 	return tDes;
 }
 
+KeyFrame* Sequence::GetKeyFrame(int idx){
+	return KFList[idx];
+}
+
 
 }//ORB_SLAM2
