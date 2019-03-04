@@ -20,6 +20,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/xhu/Code/ORB_SLAM2/src/Optimizer.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/Optimizer.cc.o"
   "/home/xhu/Code/ORB_SLAM2/src/PnPsolver.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/PnPsolver.cc.o"
   "/home/xhu/Code/ORB_SLAM2/src/Sequence.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/Sequence.cc.o"
+  "/home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/SequenceDatabase.cc.o"
   "/home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/Sim3Solver.cc.o"
   "/home/xhu/Code/ORB_SLAM2/src/System.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/System.cc.o"
   "/home/xhu/Code/ORB_SLAM2/src/Tracking.cc" "/home/xhu/Code/ORB_SLAM2/build/CMakeFiles/ORB_SLAM2.dir/src/Tracking.cc.o"

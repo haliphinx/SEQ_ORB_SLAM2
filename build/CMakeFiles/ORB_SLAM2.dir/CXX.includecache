@@ -641,6 +641,8 @@ KeyFrameDatabase.h
 ../include/KeyFrameDatabase.h
 Sequence.h
 ../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 mutex
 -
 
@@ -783,6 +785,16 @@ KeyFrame.h
 ../include/KeyFrame.h
 stdlib.h
 ../include/stdlib.h
+Converter.h
+../include/Converter.h
+
+../include/SequenceDatabase.h
+Sequence.h
+../include/Sequence.h
+ORBVocabulary.h
+../include/ORBVocabulary.h
+KeyFrame.h
+../include/KeyFrame.h
 
 ../include/Sim3Solver.h
 opencv2/opencv.hpp
@@ -817,8 +829,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 Viewer.h
 ../include/Viewer.h
-Sequence.h
-../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 
 ../include/Tracking.h
 opencv2/core/core.hpp
@@ -1051,6 +1063,12 @@ algorithm
 /home/xhu/Code/ORB_SLAM2/src/Sequence.cc
 Sequence.h
 /home/xhu/Code/ORB_SLAM2/src/Sequence.h
+math.h
+-
+
+/home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.cc
+SequenceDatabase.h
+/home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.h
 
 /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
 Sim3Solver.h

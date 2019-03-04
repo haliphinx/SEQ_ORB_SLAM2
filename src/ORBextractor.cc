@@ -770,11 +770,14 @@ void ORBextractor::ComputeKeyPointsOctTree(vector<vector<KeyPoint> >& allKeypoin
 
     for (int level = 0; level < nlevels; ++level)
     {
+        //don't consider the points on the edge(3 pixils near by the edge)
         const int minBorderX = EDGE_THRESHOLD-3;
         const int minBorderY = minBorderX;
         const int maxBorderX = mvImagePyramid[level].cols-EDGE_THRESHOLD+3;
         const int maxBorderY = mvImagePyramid[level].rows-EDGE_THRESHOLD+3;
 
+
+        //the vector to store the keypoints, initial the size with 10 times nfeatures(the number of KPs needed)
         vector<cv::KeyPoint> vToDistributeKeys;
         vToDistributeKeys.reserve(nfeatures*10);
 
@@ -783,6 +786,8 @@ void ORBextractor::ComputeKeyPointsOctTree(vector<vector<KeyPoint> >& allKeypoin
 
         const int nCols = width/W;
         const int nRows = height/W;
+
+        //w is the approxmite number of weight and height of each ceil. and wCell/hCell is exact value
         const int wCell = ceil(width/nCols);
         const int hCell = ceil(height/nRows);
 

@@ -40,7 +40,7 @@ class Map;
 class LocalMapping
 {
 public:
-    LocalMapping(Map* pMap, const float bMonocular);
+    LocalMapping(Map* pMap, const float bMonocular, SequenceDatabase* mSeqDatabase);
 
     void SetLoopCloser(LoopClosing* pLoopCloser);
 
@@ -120,6 +120,7 @@ protected:
     std::mutex mMutexStop;
 
     bool mbAcceptKeyFrames;
+    SequenceDatabase* LSeqDatabase;
     std::mutex mMutexAccept;
 };
 

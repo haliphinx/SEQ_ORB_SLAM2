@@ -34,6 +34,7 @@ namespace ORB_SLAM2
 class KeyFrame;
 class Map;
 class Frame;
+class Sequence;
 
 
 class MapPoint
@@ -56,6 +57,9 @@ public:
 
     int GetIndexInKeyFrame(KeyFrame* pKF);
     bool IsInKeyFrame(KeyFrame* pKF);
+
+    //if the keypoint is in the sequence
+    bool IsInSequence(Sequence* pSeq);
 
     void SetBadFlag();
     bool isBad();
