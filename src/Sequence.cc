@@ -4,7 +4,7 @@
 namespace ORB_SLAM2{
 
 
-Sequence::Sequence(KeyFrame* pKF, int id):seqId(id),seqLength(1){
+Sequence::Sequence(KeyFrame* pKF, int id, bool corner):seqId(id),iscorner(corner), seqLength(1){
 	
 	dAngle = 0;
 
@@ -46,7 +46,7 @@ void Sequence::clear(){
 	seqLength = 0;
 }//Sequence::clear
 
-bool Sequence::NewSeqVarify(KeyFrame* pKF){
+int Sequence::NewSeqVarify(KeyFrame* pKF){
 	int lenThresh = 12;
 	float angThresh = 0.086;
 
@@ -58,20 +58,20 @@ bool Sequence::NewSeqVarify(KeyFrame* pKF){
 	// }
 
 	if(seqLength<2){
-		return false;
+		return 0;
 	}
 
 	if(seqLength>=lenThresh){
-		return true;
+		return 1;
 	}
 
 
 	if((ang>angThresh)&&(dAngle<angThresh)){
-		return true;
+		return -1;
 	}
 
 	else if((ang<angThresh)&&(dAngle>angThresh)){
-		return true;
+		return 1;
 	}
 	// if(seqLength>=lenThresh){
 	// 	return true;

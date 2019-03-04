@@ -7,27 +7,32 @@ namespace ORB_SLAM2{
 
 	void SequenceDatabase::AddNewKeyFrame(KeyFrame* pKF){
 		if(mSeqList.size()==0){
-			cuSeq = new Sequence(pKF, mSeqList.size());
+			cuSeq = new Sequence(pKF, mSeqList.size(), false);
 			mSeqList.push_back(cuSeq);
+			return;
 		}
-		else if(cuSeq->NewSeqVarify(pKF)){
-			CreateNewSequence(pKF);
+		int corner = cuSeq->NewSeqVarify(pKF);
+		if(corner!=0){
+			CreateNewSequence(pKF, corner);
 		}
 		else{
 			cuSeq->add(pKF);
 		}
 	}//SequenceDatabase::AddNewKeyFrame
 
-	void SequenceDatabase::CreateNewSequence(KeyFrame* pKF){
+	void SequenceDatabase::CreateNewSequence(KeyFrame* pKF, int corner){
 		EndCurrenrSequence();
-		cuSeq = new Sequence(pKF, mSeqList.size());
+		bool iscorner = (corner==1)?false:true;
+		cuSeq = new Sequence(pKF, mSeqList.size(), iscorner);
 		mSeqList.push_back(cuSeq);
+		
 	}//SequenceDatabase::CreateNewSequence
 	
 	void SequenceDatabase::EndCurrenrSequence(){
 		cuSeq->ComputeBoW(mpVocabulary);
-		std::cout<<cuSeq->seqId<<std::endl;
-		std::vector<Sequence*> can = FindSeqLoopCandidate(cuSeq);
+		unProcessedSeqList.push_back(cuSeq);
+		// std::cout<<cuSeq->seqId<<std::endl;
+		// std::vector<Sequence*> can = FindSeqLoopCandidate(cuSeq);
 	}//SequenceDatabase::EndCurrenrSequence
 
 	std::vector<Sequence*> SequenceDatabase::FindSeqLoopCandidate(Sequence* Seq){
@@ -44,4 +49,20 @@ namespace ORB_SLAM2{
 		}
 		return seqCandidate;
 	}//std::vector<Sequence*> SequenceDatabase::FindSeqLoopCandidate
+
+	bool SequenceDatabase::UnProcessSeqListisEmpty(){
+		if(unProcessedSeqList.empty()){
+			return true;
+		}
+		return false;
+	}//SequenceDatabase::UnProcessSeqListisEmpty()
+
+	int SequenceDatabase::GetLatestCorner(int& seqId){
+		for(int i = seqId; i>=0; i--){
+			if(mSeqList[i]->iscorner){
+				return i;
+			}
+		}
+		return seqId;
+	}//SequenceDatabase::GetLatestCorner
 }//namespace

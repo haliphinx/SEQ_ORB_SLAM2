@@ -10,11 +10,11 @@ namespace ORB_SLAM2{
 
 	class Sequence{
 	public:
-		Sequence(KeyFrame* pKF, int id);
+		Sequence(KeyFrame* pKF, int id, bool corner);
 		void add(KeyFrame* pKF);
 		void erase(KeyFrame* pKF);
 		void clear();
-		bool NewSeqVarify(KeyFrame* pKF);
+		int NewSeqVarify(KeyFrame* pKF);
 		float CalAngle(KeyFrame* cKF, KeyFrame* pKF);
 		int NumOfKeyFrames();
 		int NumOfKeyPoints();
@@ -22,6 +22,8 @@ namespace ORB_SLAM2{
 		cv::Mat GetDescriptors();
 
 		int seqId;
+
+		bool iscorner;
 
 		int seqLength;
 

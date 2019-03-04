@@ -443,6 +443,8 @@ mutex
 ../include/LoopClosing.h
 KeyFrame.h
 ../include/KeyFrame.h
+Sequence.h
+../include/Sequence.h
 LocalMapping.h
 ../include/LocalMapping.h
 Map.h
@@ -523,6 +525,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 KeyFrame.h
 ../include/KeyFrame.h
+mutex
+-
 
 ../include/System.h
 string

@@ -679,6 +679,8 @@ mutex
 ../include/LoopClosing.h
 KeyFrame.h
 ../include/KeyFrame.h
+Sequence.h
+../include/Sequence.h
 LocalMapping.h
 ../include/LocalMapping.h
 Map.h
@@ -795,6 +797,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 KeyFrame.h
 ../include/KeyFrame.h
+mutex
+-
 
 ../include/Sim3Solver.h
 opencv2/opencv.hpp
@@ -964,6 +968,8 @@ ORBmatcher.h
 mutex
 -
 thread
+-
+numeric
 -
 
 /home/xhu/Code/ORB_SLAM2/src/Map.cc

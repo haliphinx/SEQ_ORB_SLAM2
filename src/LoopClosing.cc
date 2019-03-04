@@ -30,6 +30,7 @@
 
 #include<mutex>
 #include<thread>
+#include<numeric>
 
 
 namespace ORB_SLAM2
@@ -64,6 +65,8 @@ void LoopClosing::Run()
         // Check if there are keyframes in the queue
         if(CheckNewKeyFrames())
         {
+            bool meta = DetectSeqLoop();
+
             // Detect loop candidates and check covisibility consistency
             if(DetectLoop())
             {
@@ -99,6 +102,39 @@ bool LoopClosing::CheckNewKeyFrames()
 {
     unique_lock<mutex> lock(mMutexLoopQueue);
     return(!mlpLoopKeyFrameQueue.empty());
+}
+
+bool LoopClosing::DetectSeqLoop(){
+
+    if(!LSeqDatabase->UnProcessSeqListisEmpty()){
+        mpCurrentSeq = LSeqDatabase->unProcessedSeqList.front();
+        LSeqDatabase->unProcessedSeqList.pop_front();
+        float score = 0;
+        float meta_score = 0;
+        bool findMatch = false;
+        std::vector<float> scoreList;
+        const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
+        for(int i = 0; i<LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId); i++){
+            const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
+            meta_score = mpORBVocabulary->score(cuBoW, preBoW);
+            scoreList.push_back(meta_score);
+            if(meta_score>score){
+                score = meta_score;
+                mpMatchedSeq = LSeqDatabase->mSeqList[i];
+                findMatch = true;
+            }
+        }
+        if(findMatch){
+            double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
+            double mean =  sum / scoreList.size(); //均值 
+            double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
+            double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
+
+            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<"):"<<score<<" mean:"<<mean<<" stdev:"<<stdev<<std::endl;
+            return true;
+        }
+    }
+    return false;
 }
 
 bool LoopClosing::DetectLoop()

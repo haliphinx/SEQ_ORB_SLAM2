@@ -22,6 +22,7 @@
 #define LOOPCLOSING_H
 
 #include "KeyFrame.h"
+#include "Sequence.h"
 #include "LocalMapping.h"
 #include "Map.h"
 #include "ORBVocabulary.h"
@@ -88,6 +89,8 @@ protected:
 
     bool DetectLoop();
 
+    bool DetectSeqLoop();
+
     bool ComputeSim3();
 
     void SearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap);
@@ -120,6 +123,8 @@ protected:
     float mnCovisibilityConsistencyTh;
 
     // Loop detector variables
+    Sequence* mpCurrentSeq;
+    Sequence* mpMatchedSeq;
     KeyFrame* mpCurrentKF;
     KeyFrame* mpMatchedKF;
     std::vector<ConsistentGroup> mvConsistentGroups;
