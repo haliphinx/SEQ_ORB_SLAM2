@@ -60,8 +60,8 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
-    // vector<float> vTimesTrack;
-    // clock_t start,ends;
+    
+    clock_t start,ends;
  
 
     while(1)
@@ -73,7 +73,7 @@ void LoopClosing::Run()
             // Detect loop candidates and check covisibility consistency
            // Compute similarity transformation [sR|t]
            // In the stereo/RGBD case s=1
-            // start=clock();
+            start=clock();
             if(DetectLoopInRange()){
                if(ComputeSim3())
                {
@@ -81,27 +81,16 @@ void LoopClosing::Run()
                    CorrectLoop();
                 }
             }
-            // ends=clock();
-            // vTimesTrack.push_back(ends-start);
+            ends=clock();
+            vTimesTrack.push_back(ends-start);
 
-            // cout<<"Looptime:"<<ends-start<<endl;
+            cout<<"Looptime:^%&"<<ends-start<<"&%^"<<endl;
 
         }       
 
         ResetIfRequested();
 
         if(CheckFinish())
-            // if(!vTimesTrack.empty()){
-            //     sort(vTimesTrack.begin(),vTimesTrack.end());
-            //     float totaltime = 0;
-            //     for(int ni=0; ni<static_cast<int>(vTimesTrack.size()); ni++)
-            //     {
-            //         totaltime+=vTimesTrack[ni];
-            //     }
-            //     cout << "----Loop Time usage /ms----" << endl << endl;
-            //     cout << "median tracking time: " << vTimesTrack[vTimesTrack.size()/2] << endl;
-            //     cout << "mean tracking time: " << totaltime/vTimesTrack.size() << endl;
-            // }
             break;
 
         usleep(5000);
