@@ -63,6 +63,8 @@ public:
 
     void InsertKeyFrame(KeyFrame *pKF);
 
+    void InsertSequence(Sequence *seq);
+
     void RequestReset();
 
     // This function will run in a separate thread
@@ -87,11 +89,9 @@ protected:
 
     bool CheckNewKeyFrames();
 
-    bool DetectLoop();
 
     bool DetectLoopInRange();
 
-    bool DetectSeqLoop();
 
     bool ComputeSim3();
 
@@ -118,6 +118,8 @@ protected:
     LocalMapping *mpLocalMapper;
 
     std::list<KeyFrame*> mlpLoopKeyFrameQueue;
+
+    std::list<int> mlpLoopCandidateSeq;
 
     std::mutex mMutexLoopQueue;
 

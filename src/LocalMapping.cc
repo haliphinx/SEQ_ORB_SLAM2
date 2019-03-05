@@ -85,7 +85,11 @@ void LocalMapping::Run()
                 KeyFrameCulling();
             }
 
-            mpLoopCloser->InsertKeyFrame(mpCurrentKeyFrame);
+            // mpLoopCloser->InsertKeyFrame(mpCurrentKeyFrame);
+            if(!LSeqDatabase->UnProcessSeqListisEmpty()){
+                mpLoopCloser->InsertSequence(LSeqDatabase->unProcessedSeqList.front());
+                LSeqDatabase->unProcessedSeqList.pop_front();
+            }
         }
         else if(Stop())
         {
@@ -118,6 +122,7 @@ void LocalMapping::InsertKeyFrame(KeyFrame *pKF)
     mlNewKeyFrames.push_back(pKF);
     mbAbortBA=true;
 }
+
 
 
 bool LocalMapping::CheckNewKeyFrames()

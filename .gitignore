@@ -1,4 +1,4 @@
 Vocabulary/ORBvoc.txt
-build
-cmake_modules
-Thirdparty
+/build
+/cmake_modules
+/Thirdparty

@@ -28,6 +28,7 @@
 
 #include "ORBmatcher.h"
 
+#include<time.h>
 #include<mutex>
 #include<thread>
 #include<numeric>
@@ -59,6 +60,9 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
+    // vector<float> vTimesTrack;
+    // clock_t start,ends;
+ 
 
     while(1)
     {
@@ -67,26 +71,37 @@ void LoopClosing::Run()
         {
 
             // Detect loop candidates and check covisibility consistency
-            if(DetectSeqLoop())
-            {
-                while(!mlpLoopKeyFrameQueue.empty())
-                {
-                   // Compute similarity transformation [sR|t]
-                   // In the stereo/RGBD case s=1
-                   if(DetectLoopInRange()){
-                       if(ComputeSim3())
-                       {
-                           // Perform loop fusion and pose graph optimization
-                           CorrectLoop();
-                        }
-                    }
+           // Compute similarity transformation [sR|t]
+           // In the stereo/RGBD case s=1
+            // start=clock();
+            if(DetectLoopInRange()){
+               if(ComputeSim3())
+               {
+                   // Perform loop fusion and pose graph optimization
+                   CorrectLoop();
                 }
             }
+            // ends=clock();
+            // vTimesTrack.push_back(ends-start);
+
+            // cout<<"Looptime:"<<ends-start<<endl;
+
         }       
 
         ResetIfRequested();
 
         if(CheckFinish())
+            // if(!vTimesTrack.empty()){
+            //     sort(vTimesTrack.begin(),vTimesTrack.end());
+            //     float totaltime = 0;
+            //     for(int ni=0; ni<static_cast<int>(vTimesTrack.size()); ni++)
+            //     {
+            //         totaltime+=vTimesTrack[ni];
+            //     }
+            //     cout << "----Loop Time usage /ms----" << endl << endl;
+            //     cout << "median tracking time: " << vTimesTrack[vTimesTrack.size()/2] << endl;
+            //     cout << "mean tracking time: " << totaltime/vTimesTrack.size() << endl;
+            // }
             break;
 
         usleep(5000);
@@ -102,184 +117,55 @@ void LoopClosing::InsertKeyFrame(KeyFrame *pKF)
         mlpLoopKeyFrameQueue.push_back(pKF);
 }
 
+void LoopClosing::InsertSequence(Sequence *seq){
+    mpCurrentSeq = seq;
+    float score = 0;
+    float meta_score = 0;
+    bool findMatch = false;
+    // std::vector<float> scoreList;
+    const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
+    for(int i = 0; i<LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId); i++){
+        const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
+        meta_score = mpORBVocabulary->score(cuBoW, preBoW);
+        // scoreList.push_back(meta_score);
+        if(meta_score>score){
+            score = meta_score;
+            mpMatchedSeq = LSeqDatabase->mSeqList[i];
+            findMatch = true;
+        }
+    }
+    if(findMatch){
+        // double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
+        // double mean =  sum / scoreList.size(); //均值 
+        // double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
+        // double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
+        std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
+        for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+            unique_lock<mutex> lock(mMutexLoopQueue);
+            mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
+            mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
+        }
+        return;
+    }
+    for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+            mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
+        }
+}
+
 bool LoopClosing::CheckNewKeyFrames()
 {
     unique_lock<mutex> lock(mMutexLoopQueue);
     return(!mlpLoopKeyFrameQueue.empty());
 }
 
-bool LoopClosing::DetectSeqLoop(){
-
-    if(!LSeqDatabase->UnProcessSeqListisEmpty()){
-        mpCurrentSeq = LSeqDatabase->unProcessedSeqList.front();
-        LSeqDatabase->unProcessedSeqList.pop_front();
-        float score = 0;
-        float meta_score = 0;
-        bool findMatch = false;
-        std::vector<float> scoreList;
-        const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
-        for(int i = 0; i<LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId); i++){
-            const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
-            meta_score = mpORBVocabulary->score(cuBoW, preBoW);
-            scoreList.push_back(meta_score);
-            if(meta_score>score){
-                score = meta_score;
-                mpMatchedSeq = LSeqDatabase->mSeqList[i];
-                findMatch = true;
-            }
-        }
-        if(findMatch){
-            double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
-            double mean =  sum / scoreList.size(); //均值 
-            double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
-            double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
-            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<"):"<<score<<" mean:"<<mean<<" stdev:"<<stdev<<std::endl;
-            for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-                unique_lock<mutex> lock(mMutexLoopQueue);
-                mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
-            }
-            return true;
-        }
-        for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-                mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
-            }
-    }
-    return false;
-}
-
-bool LoopClosing::DetectLoop()
-{
-    {
-        unique_lock<mutex> lock(mMutexLoopQueue);
-        mpCurrentKF = mlpLoopKeyFrameQueue.front();
-        mlpLoopKeyFrameQueue.pop_front();
-        // Avoid that a keyframe can be erased while it is being process by this thread
-        mpCurrentKF->SetNotErase();
-    }
-
-    //If the map contains less than 10 KF or less than 10 KF have passed from last loop detection
-    if(mpCurrentKF->mnId<mLastLoopKFid+10)
-    {
-        mpKeyFrameDB->add(mpCurrentKF);
-        mpCurrentKF->SetErase();
-        return false;
-    }
-
-    // Compute reference BoW similarity score
-    // This is the lowest score to a connected keyframe in the covisibility graph
-    // We will impose loop candidates to have a higher similarity than this
-    const vector<KeyFrame*> vpConnectedKeyFrames = mpCurrentKF->GetVectorCovisibleKeyFrames();
-    const DBoW2::BowVector &CurrentBowVec = mpCurrentKF->mBowVec;
-    float minScore = 1;
-    for(size_t i=0; i<vpConnectedKeyFrames.size(); i++)
-    {
-        KeyFrame* pKF = vpConnectedKeyFrames[i];
-        if(pKF->isBad())
-            continue;
-        const DBoW2::BowVector &BowVec = pKF->mBowVec;
-
-        float score = mpORBVocabulary->score(CurrentBowVec, BowVec);
-
-        if(score<minScore)
-            minScore = score;
-    }
-
-    // Query the database imposing the minimum score
-    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
-
-    // If there are no loop candidates, just add new keyframe and return false
-    if(vpCandidateKFs.empty())
-    {
-        mpKeyFrameDB->add(mpCurrentKF);
-        mvConsistentGroups.clear();
-        mpCurrentKF->SetErase();
-        return false;
-    }
-
-    // For each loop candidate check consistency with previous loop candidates
-    // Each candidate expands a covisibility group (keyframes connected to the loop candidate in the covisibility graph)
-    // A group is consistent with a previous group if they share at least a keyframe
-    // We must detect a consistent loop in several consecutive keyframes to accept it
-    mvpEnoughConsistentCandidates.clear();
-
-    vector<ConsistentGroup> vCurrentConsistentGroups;
-    vector<bool> vbConsistentGroup(mvConsistentGroups.size(),false);
-    for(size_t i=0, iend=vpCandidateKFs.size(); i<iend; i++)
-    {
-        KeyFrame* pCandidateKF = vpCandidateKFs[i];
-
-        set<KeyFrame*> spCandidateGroup = pCandidateKF->GetConnectedKeyFrames();
-        spCandidateGroup.insert(pCandidateKF);
-
-        bool bEnoughConsistent = false;
-        bool bConsistentForSomeGroup = false;
-        for(size_t iG=0, iendG=mvConsistentGroups.size(); iG<iendG; iG++)
-        {
-            set<KeyFrame*> sPreviousGroup = mvConsistentGroups[iG].first;
-
-            bool bConsistent = false;
-            for(set<KeyFrame*>::iterator sit=spCandidateGroup.begin(), send=spCandidateGroup.end(); sit!=send;sit++)
-            {
-                if(sPreviousGroup.count(*sit))
-                {
-                    bConsistent=true;
-                    bConsistentForSomeGroup=true;
-                    break;
-                }
-            }
-
-            if(bConsistent)
-            {
-                int nPreviousConsistency = mvConsistentGroups[iG].second;
-                int nCurrentConsistency = nPreviousConsistency + 1;
-                if(!vbConsistentGroup[iG])
-                {
-                    ConsistentGroup cg = make_pair(spCandidateGroup,nCurrentConsistency);
-                    vCurrentConsistentGroups.push_back(cg);
-                    vbConsistentGroup[iG]=true; //this avoid to include the same group more than once
-                }
-                if(nCurrentConsistency>=mnCovisibilityConsistencyTh && !bEnoughConsistent)
-                {
-                    mvpEnoughConsistentCandidates.push_back(pCandidateKF);
-                    bEnoughConsistent=true; //this avoid to insert the same candidate more than once
-                }
-            }
-        }
-
-        // If the group is not consistent with any previous group insert with consistency counter set to zero
-        if(!bConsistentForSomeGroup)
-        {
-            ConsistentGroup cg = make_pair(spCandidateGroup,0);
-            vCurrentConsistentGroups.push_back(cg);
-        }
-    }
-
-    // Update Covisibility Consistent Groups
-    mvConsistentGroups = vCurrentConsistentGroups;
-
-
-    // Add Current Keyframe to database
-    mpKeyFrameDB->add(mpCurrentKF);
-
-    if(mvpEnoughConsistentCandidates.empty())
-    {
-        mpCurrentKF->SetErase();
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-
-    mpCurrentKF->SetErase();
-    return false;
-}
 
 bool LoopClosing::DetectLoopInRange(){
     {
         unique_lock<mutex> lock(mMutexLoopQueue);
         mpCurrentKF = mlpLoopKeyFrameQueue.front();
         mlpLoopKeyFrameQueue.pop_front();
+        mpMatchedSeq = LSeqDatabase->mSeqList[mlpLoopCandidateSeq.front()];
+        mlpLoopCandidateSeq.pop_front();
         // Avoid that a keyframe can be erased while it is being process by this thread
         mpCurrentKF->SetNotErase();
     }
