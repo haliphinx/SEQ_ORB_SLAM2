@@ -65,6 +65,8 @@ public:
 
     void InsertSequence(Sequence *seq);
 
+    bool SequenceMatch();
+
     void RequestReset();
 
     // This function will run in a separate thread
@@ -90,6 +92,8 @@ public:
 protected:
 
     bool CheckNewKeyFrames();
+
+    bool CheckNewSequences();
 
 
     bool DetectLoopInRange();
@@ -125,6 +129,10 @@ protected:
 
     std::mutex mMutexLoopQueue;
 
+    std::list<Sequence*> mlpLoopSeqQueue;
+
+    std::mutex mMutexLoopSeqQueue;
+
     // Loop detector parameters
     float mnCovisibilityConsistencyTh;
 
@@ -156,6 +164,7 @@ protected:
 
     bool mnFullBAIdx;
     SequenceDatabase* LSeqDatabase;
+    int justLoopedSeqId;
 };
 
 } //namespace ORB_SLAM

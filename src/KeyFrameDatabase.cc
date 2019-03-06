@@ -196,7 +196,7 @@ vector<KeyFrame*> KeyFrameDatabase::DetectLoopCandidates(KeyFrame* pKF, float mi
     return vpLoopCandidates;
 }
 
-std::vector<KeyFrame *> KeyFrameDatabase::DetectLoopCandidatesInRange(KeyFrame* pKF, float minScore, const long unsigned int& startId, const long unsigned int& endId){
+std::vector<KeyFrame *> KeyFrameDatabase::DetectLoopCandidatesInRange(KeyFrame* pKF, float minScore, std::vector<KeyFrame*>& canSeq){
     set<KeyFrame*> spConnectedKeyFrames = pKF->GetConnectedKeyFrames();
     list<KeyFrame*> lKFsSharingWords;
 
@@ -205,30 +205,25 @@ std::vector<KeyFrame *> KeyFrameDatabase::DetectLoopCandidatesInRange(KeyFrame* 
     {
         unique_lock<mutex> lock(mMutex);
 
-        for(DBoW2::BowVector::const_iterator vit=pKF->mBowVec.begin(), vend=pKF->mBowVec.end(); vit != vend; vit++)
-        {
-            list<KeyFrame*> &lKFs =   mvInvertedFile[vit->first];
+        
+        // vector<KeyFrame*> &lKFs = *canSeq;
 
-            for(list<KeyFrame*>::iterator lit=lKFs.begin(), lend= lKFs.end(); lit!=lend; lit++)
+        for(vector<KeyFrame*>::iterator lit=canSeq.begin(), lend= canSeq.end(); lit!=lend; lit++)
+        {
+            KeyFrame* pKFi=*lit;
+            
+            if(pKFi->mnLoopQuery!=pKF->mnId)
             {
-                KeyFrame* pKFi=*lit;
-                const long unsigned int& KfId = pKFi->mnFrameId;
-                if((KfId<startId)||(KfId>endId)){
-                    continue;
-                }
-                
-                if(pKFi->mnLoopQuery!=pKF->mnId)
+                pKFi->mnLoopWords=0;
+                if(!spConnectedKeyFrames.count(pKFi))
                 {
-                    pKFi->mnLoopWords=0;
-                    if(!spConnectedKeyFrames.count(pKFi))
-                    {
-                        pKFi->mnLoopQuery=pKF->mnId;
-                        lKFsSharingWords.push_back(pKFi);
-                    }
+                    pKFi->mnLoopQuery=pKF->mnId;
+                    lKFsSharingWords.push_back(pKFi);
                 }
-                pKFi->mnLoopWords++;
             }
+            pKFi->mnLoopWords++;
         }
+        
     }
 
     if(lKFsSharingWords.empty())

@@ -40,7 +40,6 @@ namespace ORB_SLAM2{
     	DBoW2::BowVector seqBowVec;
     	DBoW2::FeatureVector seqFeatVec;
 
-	protected:
 
 		std::vector<KeyFrame*> KFList;
 

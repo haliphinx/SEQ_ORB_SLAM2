@@ -24,13 +24,16 @@ namespace ORB_SLAM2{
 		EndCurrenrSequence();
 		bool iscorner = (corner==1)?false:true;
 		cuSeq = new Sequence(pKF, mSeqList.size(), iscorner);
-		mSeqList.push_back(cuSeq);
+		
 		
 	}//SequenceDatabase::CreateNewSequence
 	
 	void SequenceDatabase::EndCurrenrSequence(){
 		cuSeq->ComputeBoW(mpVocabulary);
-		unProcessedSeqList.push_back(cuSeq);
+		if(cuSeq->seqLength>3){
+			mSeqList.push_back(cuSeq);
+			unProcessedSeqList.push_back(cuSeq);
+		}
 		// std::cout<<cuSeq->seqId<<std::endl;
 		// std::vector<Sequence*> can = FindSeqLoopCandidate(cuSeq);
 	}//SequenceDatabase::EndCurrenrSequence
