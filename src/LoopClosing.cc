@@ -62,6 +62,8 @@ void LoopClosing::Run()
     mbFinished =false;
     
     clock_t start,ends;
+
+    int coutnum = 0;
  
 
     while(1)
@@ -73,6 +75,7 @@ void LoopClosing::Run()
             // Detect loop candidates and check covisibility consistency
            // Compute similarity transformation [sR|t]
            // In the stereo/RGBD case s=1
+            coutnum++;
             start=clock();
             if(DetectLoopInRange()){
                if(ComputeSim3())
@@ -84,7 +87,8 @@ void LoopClosing::Run()
             ends=clock();
             vTimesTrack.push_back(ends-start);
 
-            cout<<"Looptime:^%&"<<ends-start<<"&%^"<<endl;
+            cout<<"Looptime:%&"<<ends-start<<"&%"<<endl;
+            cout<<"LoopNum:"<<coutnum<<endl;
 
         }       
 
@@ -111,12 +115,12 @@ void LoopClosing::InsertSequence(Sequence *seq){
     float score = 0;
     float meta_score = 0;
     bool findMatch = false;
-    // std::vector<float> scoreList;
+    std::vector<float> scoreList;
     const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
     for(int i = 0; i<LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId); i++){
         const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
         meta_score = mpORBVocabulary->score(cuBoW, preBoW);
-        // scoreList.push_back(meta_score);
+        scoreList.push_back(meta_score);
         if(meta_score>score){
             score = meta_score;
             mpMatchedSeq = LSeqDatabase->mSeqList[i];
@@ -124,17 +128,20 @@ void LoopClosing::InsertSequence(Sequence *seq){
         }
     }
     if(findMatch){
-        // double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
-        // double mean =  sum / scoreList.size(); //均值 
-        // double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
-        // double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
+        double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
+        double mean =  sum / scoreList.size(); //均值 
+        double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
+        double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
         std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
-        for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-            unique_lock<mutex> lock(mMutexLoopQueue);
-            mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
-            mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
+        if(score>1.5*mean){
+            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<" stdev:"<<stdev<<std::endl;
+            for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+                unique_lock<mutex> lock(mMutexLoopQueue);
+                mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
+                mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
+            }
+            return;
         }
-        return;
     }
     for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
             mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
