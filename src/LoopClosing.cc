@@ -32,6 +32,9 @@
 #include<mutex>
 #include<thread>
 #include<numeric>
+#include<chrono>
+#include<iostream>
+#include<fstream>
 
 
 namespace ORB_SLAM2
@@ -61,14 +64,17 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
-    
-    clock_t start,ends;
+    // ofstream outfile("/home/xhu/Desktop/res.txt");
 
-    int coutnum = 0;
  
 
     while(1)
     {
+        // #ifdef COMPILEDWITHC11
+        //                     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        //             #else
+        //                     std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+        //             #endif
         // Check if there are keyframes in the queue
         if(CheckNewSequences())
         {
@@ -77,8 +83,7 @@ void LoopClosing::Run()
            // Compute similarity transformation [sR|t]
            // In the stereo/RGBD case s=1
                 while(CheckNewKeyFrames()){
-                    coutnum++;
-                    start=clock();
+                    
                     if(DetectLoopInRange()){
                        if(ComputeSim3())
                        {
@@ -86,18 +91,20 @@ void LoopClosing::Run()
                            CorrectLoop();
                         }
                     }
-                    ends=clock();
-                    vTimesTrack.push_back(ends-start);
-
-                    cout<<"Looptime:%&"<<ends-start<<"&%"<<endl;
-                    cout<<"LoopNum:"<<coutnum<<endl;
+                    
                 }
             }
 
         }       
 
         ResetIfRequested();
-
+        // #ifdef COMPILEDWITHC11
+        //                     std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+        //             #else
+        //                     std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+        //             #endif
+        //                     double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        //             outfile<<"Looptime:%&"<<ttrack*1000<<"&%"<<endl;
         if(CheckFinish())
             break;
 
@@ -158,12 +165,10 @@ bool LoopClosing::SequenceMatch(){
         }
         if(findMatch){
             double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
-            double mean =  sum / scoreList.size(); //均值 
-            double accum = 0.0; std::for_each (std::begin(scoreList), std::end(scoreList), [&](const double d) { accum += (d-mean)*(d-mean); });
-            double stdev = sqrt(accum/(scoreList.size()-1)); //方差  
+            double mean =  sum / scoreList.size();
             std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
             if(score>1.5*mean){
-                std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<" stdev:"<<stdev<<std::endl;
+                std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<std::endl;
                 for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
                     unique_lock<mutex> lock(mMutexLoopQueue);
                     mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
