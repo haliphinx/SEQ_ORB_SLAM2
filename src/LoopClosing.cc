@@ -64,17 +64,17 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
-    // ofstream outfile("/home/xhu/Desktop/res.txt");
+    ofstream outfile("/home/xhu/Desktop/res.txt");
 
  
 
     while(1)
     {
-        // #ifdef COMPILEDWITHC11
-        //                     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-        //             #else
-        //                     std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
-        //             #endif
+        #ifdef COMPILEDWITHC11
+                            std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+                    #else
+                            std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+                    #endif
         // Check if there are keyframes in the queue
         if(CheckNewSequences())
         {
@@ -98,13 +98,13 @@ void LoopClosing::Run()
         }       
 
         ResetIfRequested();
-        // #ifdef COMPILEDWITHC11
-        //                     std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-        //             #else
-        //                     std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
-        //             #endif
-        //                     double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-        //             outfile<<"Looptime:%&"<<ttrack*1000<<"&%"<<endl;
+        #ifdef COMPILEDWITHC11
+                            std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+                    #else
+                            std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+                    #endif
+                            double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+                    outfile<<"Looptime:%&"<<ttrack*1000<<"&%"<<endl;
         if(CheckFinish())
             break;
 
@@ -146,7 +146,7 @@ bool LoopClosing::SequenceMatch(){
         mlpLoopSeqQueue.pop_front();
     }
 
-    if(mpCurrentSeq->seqId>justLoopedSeqId+1){
+    if(mpCurrentSeq->seqId>justLoopedSeqId+2){
         float score = 0;
         float meta_score = 0;
         bool findMatch = false;
