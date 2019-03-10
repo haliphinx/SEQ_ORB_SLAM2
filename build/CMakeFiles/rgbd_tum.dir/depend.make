@@ -6,6 +6,7 @@ CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/FeatureVector.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h
+CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/BowVector.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/FClass.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/DBoW2/DBoW2/FeatureVector.h
@@ -34,6 +35,7 @@ CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/type
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/types/sim3.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/types/types_sba.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
+CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Converter.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Frame.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/FrameDrawer.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Initializer.h
@@ -47,6 +49,7 @@ CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/MapPoint.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/ORBextractor.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Sequence.h
+CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/SequenceDatabase.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/System.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Tracking.h
 CMakeFiles/rgbd_tum.dir/Examples/RGB-D/rgbd_tum.cc.o: ../include/Viewer.h

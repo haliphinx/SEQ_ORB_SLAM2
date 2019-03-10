@@ -22,6 +22,7 @@
 #define LOOPCLOSING_H
 
 #include "KeyFrame.h"
+#include "Sequence.h"
 #include "LocalMapping.h"
 #include "Map.h"
 #include "ORBVocabulary.h"
@@ -51,7 +52,7 @@ public:
 
 public:
 
-    LoopClosing(Map* pMap, KeyFrameDatabase* pDB, ORBVocabulary* pVoc,const bool bFixScale);
+    LoopClosing(Map* pMap, KeyFrameDatabase* pDB, ORBVocabulary* pVoc,const bool bFixScale, SequenceDatabase* mSeqDatabase);
 
     void SetTracker(Tracking* pTracker);
 
@@ -61,6 +62,10 @@ public:
     void Run();
 
     void InsertKeyFrame(KeyFrame *pKF);
+
+    void InsertSequence(Sequence *seq);
+
+    bool SequenceMatch();
 
     void RequestReset();
 
@@ -82,11 +87,17 @@ public:
 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+    vector<float> vTimesTrack;
+
 protected:
 
     bool CheckNewKeyFrames();
 
-    bool DetectLoop();
+    bool CheckNewSequences();
+
+
+    bool DetectLoopInRange();
+
 
     bool ComputeSim3();
 
@@ -114,12 +125,20 @@ protected:
 
     std::list<KeyFrame*> mlpLoopKeyFrameQueue;
 
+    std::list<int> mlpLoopCandidateSeq;
+
     std::mutex mMutexLoopQueue;
+
+    std::list<Sequence*> mlpLoopSeqQueue;
+
+    std::mutex mMutexLoopSeqQueue;
 
     // Loop detector parameters
     float mnCovisibilityConsistencyTh;
 
     // Loop detector variables
+    Sequence* mpCurrentSeq;
+    Sequence* mpMatchedSeq;
     KeyFrame* mpCurrentKF;
     KeyFrame* mpMatchedKF;
     std::vector<ConsistentGroup> mvConsistentGroups;
@@ -144,6 +163,8 @@ protected:
 
 
     bool mnFullBAIdx;
+    SequenceDatabase* LSeqDatabase;
+    int justLoopedSeqId;
 };
 
 } //namespace ORB_SLAM

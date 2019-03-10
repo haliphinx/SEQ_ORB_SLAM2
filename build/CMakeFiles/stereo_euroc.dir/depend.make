@@ -6,6 +6,7 @@ CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBo
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBoW2/DBoW2/FeatureVector.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h
+CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBoW2/DBoW2/BowVector.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBoW2/DBoW2/FClass.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/DBoW2/DBoW2/FeatureVector.h
@@ -34,6 +35,7 @@ CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o/g2o/types/sim3.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o/g2o/types/types_sba.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../Thirdparty/g2o/g2o/types/types_six_dof_expmap.h
+CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Converter.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Frame.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/FrameDrawer.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Initializer.h
@@ -47,6 +49,7 @@ CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/MapPoi
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/ORBVocabulary.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/ORBextractor.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Sequence.h
+CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/SequenceDatabase.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/System.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Tracking.h
 CMakeFiles/stereo_euroc.dir/Examples/Stereo/stereo_euroc.cc.o: ../include/Viewer.h

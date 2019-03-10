@@ -641,6 +641,8 @@ KeyFrameDatabase.h
 ../include/KeyFrameDatabase.h
 Sequence.h
 ../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 mutex
 -
 
@@ -677,6 +679,8 @@ mutex
 ../include/LoopClosing.h
 KeyFrame.h
 ../include/KeyFrame.h
+Sequence.h
+../include/Sequence.h
 LocalMapping.h
 ../include/LocalMapping.h
 Map.h
@@ -783,6 +787,18 @@ KeyFrame.h
 ../include/KeyFrame.h
 stdlib.h
 ../include/stdlib.h
+Converter.h
+../include/Converter.h
+
+../include/SequenceDatabase.h
+Sequence.h
+../include/Sequence.h
+ORBVocabulary.h
+../include/ORBVocabulary.h
+KeyFrame.h
+../include/KeyFrame.h
+mutex
+-
 
 ../include/Sim3Solver.h
 opencv2/opencv.hpp
@@ -817,8 +833,8 @@ ORBVocabulary.h
 ../include/ORBVocabulary.h
 Viewer.h
 ../include/Viewer.h
-Sequence.h
-../include/Sequence.h
+SequenceDatabase.h
+../include/SequenceDatabase.h
 
 ../include/Tracking.h
 opencv2/core/core.hpp
@@ -949,9 +965,19 @@ Optimizer.h
 /home/xhu/Code/ORB_SLAM2/src/Optimizer.h
 ORBmatcher.h
 /home/xhu/Code/ORB_SLAM2/src/ORBmatcher.h
+time.h
+-
 mutex
 -
 thread
+-
+numeric
+-
+chrono
+-
+iostream
+-
+fstream
 -
 
 /home/xhu/Code/ORB_SLAM2/src/Map.cc
@@ -1051,6 +1077,12 @@ algorithm
 /home/xhu/Code/ORB_SLAM2/src/Sequence.cc
 Sequence.h
 /home/xhu/Code/ORB_SLAM2/src/Sequence.h
+math.h
+-
+
+/home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.cc
+SequenceDatabase.h
+/home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.h
 
 /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
 Sim3Solver.h

@@ -28,19 +28,26 @@
 
 #include "ORBmatcher.h"
 
+#include<time.h>
 #include<mutex>
 #include<thread>
+#include<numeric>
+#include<chrono>
+#include<iostream>
+#include<fstream>
 
 
 namespace ORB_SLAM2
 {
 
-LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale):
+LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale, SequenceDatabase* mSeqDatabase):
     mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mpKeyFrameDB(pDB), mpORBVocabulary(pVoc), mpMatchedKF(NULL), mLastLoopKFid(0), mbRunningGBA(false), mbFinishedGBA(true),
     mbStopGBA(false), mpThreadGBA(NULL), mbFixScale(bFixScale), mnFullBAIdx(0)
 {
     mnCovisibilityConsistencyTh = 3;
+    LSeqDatabase = mSeqDatabase;
+    justLoopedSeqId = 0;
 }
 
 void LoopClosing::SetTracker(Tracking *pTracker)
@@ -57,34 +64,51 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
+    ofstream outfile("/home/xhu/Desktop/res.txt");
+
+ 
 
     while(1)
     {
+        // #ifdef COMPILEDWITHC11
+        //                     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        //             #else
+        //                     std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+                    // #endif
+        // Check if there are keyframes in the queue
+
         // Check if there are keyframes in the queue
         if(CheckNewKeyFrames())
         {
-            // Detect loop candidates and check covisibility consistency
-            if(DetectLoop())
-            {
-               // Compute similarity transformation [sR|t]
-               // In the stereo/RGBD case s=1
-               if(ComputeSim3())
-               {
-                   // Perform loop fusion and pose graph optimization
-                   CorrectLoop();
-               }
+
+                while(CheckNewKeyFrames()){
+                    
+                    if(DetectLoopInRange()){
+                       if(ComputeSim3())
+                       {
+                           // Perform loop fusion and pose graph optimization
+                           CorrectLoop();
+                        }
+                    }
+                    
+                }
             }
-        }       
+
+
+              
 
         ResetIfRequested();
+            
+
 
         if(CheckFinish())
             break;
 
         usleep(5000);
-    }
+    
 
-    SetFinish();
+        SetFinish();
+    }
 }
 
 void LoopClosing::InsertKeyFrame(KeyFrame *pKF)
@@ -94,18 +118,78 @@ void LoopClosing::InsertKeyFrame(KeyFrame *pKF)
         mlpLoopKeyFrameQueue.push_back(pKF);
 }
 
+void LoopClosing::InsertSequence(Sequence *seq){
+    unique_lock<mutex> lock(mMutexLoopSeqQueue);
+    mlpLoopSeqQueue.push_back(seq);
+
+}
+
 bool LoopClosing::CheckNewKeyFrames()
 {
     unique_lock<mutex> lock(mMutexLoopQueue);
     return(!mlpLoopKeyFrameQueue.empty());
 }
 
-bool LoopClosing::DetectLoop()
+bool LoopClosing::CheckNewSequences()
 {
+    unique_lock<mutex> lock(mMutexLoopSeqQueue);
+    return(!mlpLoopSeqQueue.empty());
+}
+
+bool LoopClosing::SequenceMatch(){
+    {
+        unique_lock<mutex> lock(mMutexLoopSeqQueue);
+        mpCurrentSeq = mlpLoopSeqQueue.front();
+        mlpLoopSeqQueue.pop_front();
+    }
+
+    if(mpCurrentSeq->seqId>justLoopedSeqId+2){
+        float score = 0;
+        float meta_score = 0;
+        bool findMatch = false;
+        std::vector<float> scoreList;
+        const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
+        int testRange = (LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
+        for(int i = 0; i<testRange; i++){
+            const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
+            meta_score = mpORBVocabulary->score(cuBoW, preBoW);
+            scoreList.push_back(meta_score);
+            if(meta_score>score){
+                score = meta_score;
+                mpMatchedSeq = LSeqDatabase->mSeqList[i];
+                findMatch = true;
+            }
+        }
+        if(findMatch){
+            double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
+            double mean =  sum / scoreList.size();
+            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
+            if(score>1.5*mean){
+                std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<std::endl;
+                for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+                    unique_lock<mutex> lock(mMutexLoopQueue);
+                    mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
+                    mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
+                }
+                return true;
+            }
+        }
+    }
+
+    for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+            mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
+        }
+
+    return false;
+}
+
+bool LoopClosing::DetectLoopInRange(){
     {
         unique_lock<mutex> lock(mMutexLoopQueue);
         mpCurrentKF = mlpLoopKeyFrameQueue.front();
         mlpLoopKeyFrameQueue.pop_front();
+        mpMatchedSeq = LSeqDatabase->mSeqList[mlpLoopCandidateSeq.front()];
+        mlpLoopCandidateSeq.pop_front();
         // Avoid that a keyframe can be erased while it is being process by this thread
         mpCurrentKF->SetNotErase();
     }
@@ -136,10 +220,8 @@ bool LoopClosing::DetectLoop()
         if(score<minScore)
             minScore = score;
     }
-
     // Query the database imposing the minimum score
-    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
-
+    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectLoopCandidatesInRange(mpCurrentKF, minScore, mpMatchedSeq->KFList);
     // If there are no loop candidates, just add new keyframe and return false
     if(vpCandidateKFs.empty())
     {
@@ -271,6 +353,8 @@ bool LoopClosing::ComputeSim3()
         }
         else
         {
+            std::cout<<"loop:"<<mpCurrentKF->bSeq->seqId<<","<<pKF->bSeq->seqId<<std::endl;
+            justLoopedSeqId = mpCurrentKF->bSeq->seqId;
             Sim3Solver* pSolver = new Sim3Solver(mpCurrentKF,pKF,vvpMapPointMatches[i],mbFixScale);
             pSolver->SetRansacParameters(0.99,20,300);
             vpSim3Solvers[i] = pSolver;
