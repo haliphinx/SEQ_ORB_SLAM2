@@ -70,18 +70,17 @@ void LoopClosing::Run()
 
     while(1)
     {
-        #ifdef COMPILEDWITHC11
-                            std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-                    #else
-                            std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
-                    #endif
+        // #ifdef COMPILEDWITHC11
+        //                     std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        //             #else
+        //                     std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+                    // #endif
         // Check if there are keyframes in the queue
-        if(CheckNewSequences())
+
+        // Check if there are keyframes in the queue
+        if(CheckNewKeyFrames())
         {
-            if(SequenceMatch()){
-            // Detect loop candidates and check covisibility consistency
-           // Compute similarity transformation [sR|t]
-           // In the stereo/RGBD case s=1
+
                 while(CheckNewKeyFrames()){
                     
                     if(DetectLoopInRange()){
@@ -95,23 +94,21 @@ void LoopClosing::Run()
                 }
             }
 
-        }       
+
+              
 
         ResetIfRequested();
-        #ifdef COMPILEDWITHC11
-                            std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-                    #else
-                            std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
-                    #endif
-                            double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-                    outfile<<"Looptime:%&"<<ttrack*1000<<"&%"<<endl;
+            
+
+
         if(CheckFinish())
             break;
 
         usleep(5000);
-    }
+    
 
-    SetFinish();
+        SetFinish();
+    }
 }
 
 void LoopClosing::InsertKeyFrame(KeyFrame *pKF)

@@ -48,7 +48,7 @@ void Sequence::clear(){
 
 int Sequence::NewSeqVarify(KeyFrame* pKF){
 	int lenThresh = 12;
-	float angThresh = 0.12;
+	float angThresh = 0.085;
 
 	float ang = CalAngle(KFList.back(), pKF);
 	// float ang = 5.0;
