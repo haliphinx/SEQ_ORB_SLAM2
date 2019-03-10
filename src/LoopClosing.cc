@@ -78,8 +78,9 @@ void LoopClosing::Run()
         // Check if there are keyframes in the queue
 
         // Check if there are keyframes in the queue
-        if(CheckNewKeyFrames())
+        if(CheckNewSequences())
         {
+            if(SequenceMatch()){
 
                 while(CheckNewKeyFrames()){
                     
@@ -93,6 +94,7 @@ void LoopClosing::Run()
                     
                 }
             }
+        }
 
 
               
