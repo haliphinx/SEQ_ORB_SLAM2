@@ -109,7 +109,6 @@ void Sequence::ComputeBoW(ORBVocabulary* voc)
     if(seqBowVec.empty() || seqFeatVec.empty())
     {
         cv::Mat seqDescriptors = GetDescriptors();
-
         vector<cv::Mat> vCurrentDesc = Converter::toDescriptorVector(seqDescriptors);
         // Feature vector associate features with nodes in the 4th level (from leaves up)
         // We assume the vocabulary tree has 6 levels, change the 4 otherwise

@@ -52,11 +52,13 @@ public:
 
 public:
 
-    LoopClosing(Map* pMap, KeyFrameDatabase* pDB, ORBVocabulary* pVoc,const bool bFixScale, SequenceDatabase* mSeqDatabase);
+    LoopClosing(Map* pMap, KeyFrameDatabase* pDB, ORBVocabulary* pVoc,const bool bFixScale);
 
     void SetTracker(Tracking* pTracker);
 
     void SetLocalMapper(LocalMapping* pLocalMapper);
+
+    void SetSeqData(SequenceDatabase *pSeqData);
 
     // Main function
     void Run();
@@ -117,6 +119,7 @@ protected:
 
     Map* mpMap;
     Tracking* mpTracker;
+    SequenceDatabase* mpSeqDatabase;
 
     KeyFrameDatabase* mpKeyFrameDB;
     ORBVocabulary* mpORBVocabulary;

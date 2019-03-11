@@ -1083,6 +1083,8 @@ math.h
 /home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.cc
 SequenceDatabase.h
 /home/xhu/Code/ORB_SLAM2/src/SequenceDatabase.h
+LoopClosing.h
+/home/xhu/Code/ORB_SLAM2/src/LoopClosing.h
 
 /home/xhu/Code/ORB_SLAM2/src/Sim3Solver.cc
 Sim3Solver.h

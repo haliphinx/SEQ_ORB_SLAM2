@@ -28,11 +28,11 @@
 namespace ORB_SLAM2
 {
 
-LocalMapping::LocalMapping(Map *pMap, const float bMonocular, SequenceDatabase* mSeqDatabase):
+LocalMapping::LocalMapping(Map *pMap, const float bMonocular):
     mbMonocular(bMonocular), mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mbAbortBA(false), mbStopped(false), mbStopRequested(false), mbNotStop(false), mbAcceptKeyFrames(true)
 {
-    LSeqDatabase = mSeqDatabase;
+
 }
 
 void LocalMapping::SetLoopCloser(LoopClosing* pLoopCloser)
@@ -43,6 +43,10 @@ void LocalMapping::SetLoopCloser(LoopClosing* pLoopCloser)
 void LocalMapping::SetTracker(Tracking *pTracker)
 {
     mpTracker=pTracker;
+}
+
+void LocalMapping::SetSeqData(SequenceDatabase *pSeqData){
+    mpSeqDatabase = pSeqData;
 }
 
 void LocalMapping::Run()
@@ -86,10 +90,10 @@ void LocalMapping::Run()
             }
 
             // mpLoopCloser->InsertKeyFrame(mpCurrentKeyFrame);
-            if(!LSeqDatabase->UnProcessSeqListisEmpty()){
-                mpLoopCloser->InsertSequence(LSeqDatabase->unProcessedSeqList.front());
-                LSeqDatabase->unProcessedSeqList.pop_front();
-            }
+            // if(!mpSeqDatabase->UnProcessSeqListisEmpty()){
+            //     mpLoopCloser->InsertSequence(mpSeqDatabase->unProcessedSeqList.front());
+            //     mpSeqDatabase->unProcessedSeqList.pop_front();
+            // }
         }
         else if(Stop())
         {
@@ -171,7 +175,7 @@ void LocalMapping::ProcessNewKeyFrame()
     mpCurrentKeyFrame->UpdateConnections();
 
     //Insert keyframe into sequence
-    LSeqDatabase->AddNewKeyFrame(mpCurrentKeyFrame);
+    mpSeqDatabase->AddNewKeyFrame(mpCurrentKeyFrame);
     
     // Insert Keyframe in Map
     mpMap->AddKeyFrame(mpCurrentKeyFrame);

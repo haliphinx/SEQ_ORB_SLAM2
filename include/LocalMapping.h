@@ -40,11 +40,13 @@ class Map;
 class LocalMapping
 {
 public:
-    LocalMapping(Map* pMap, const float bMonocular, SequenceDatabase* mSeqDatabase);
+    LocalMapping(Map* pMap, const float bMonocular);
 
     void SetLoopCloser(LoopClosing* pLoopCloser);
 
     void SetTracker(Tracking* pTracker);
+
+    void SetSeqData(SequenceDatabase *pSeqData);
 
     // Main function
     void Run();
@@ -103,6 +105,7 @@ protected:
 
     LoopClosing* mpLoopCloser;
     Tracking* mpTracker;
+    SequenceDatabase* mpSeqDatabase;
 
     std::list<KeyFrame*> mlNewKeyFrames;
 
@@ -120,7 +123,7 @@ protected:
     std::mutex mMutexStop;
 
     bool mbAcceptKeyFrames;
-    SequenceDatabase* LSeqDatabase;
+    
     std::mutex mMutexAccept;
 };
 

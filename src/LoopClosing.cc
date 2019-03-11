@@ -40,13 +40,12 @@
 namespace ORB_SLAM2
 {
 
-LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale, SequenceDatabase* mSeqDatabase):
+LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale):
     mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mpKeyFrameDB(pDB), mpORBVocabulary(pVoc), mpMatchedKF(NULL), mLastLoopKFid(0), mbRunningGBA(false), mbFinishedGBA(true),
     mbStopGBA(false), mpThreadGBA(NULL), mbFixScale(bFixScale), mnFullBAIdx(0)
 {
     mnCovisibilityConsistencyTh = 3;
-    LSeqDatabase = mSeqDatabase;
     justLoopedSeqId = 0;
 }
 
@@ -60,11 +59,14 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
     mpLocalMapper=pLocalMapper;
 }
 
+void LoopClosing::SetSeqData(SequenceDatabase *pSeqData){
+    mpSeqDatabase = pSeqData;
+}
 
 void LoopClosing::Run()
 {
     mbFinished =false;
-    ofstream outfile("/home/xhu/Desktop/res.txt");
+    // ofstream outfile("/home/xhu/Desktop/res.txt");
 
  
 
@@ -151,14 +153,14 @@ bool LoopClosing::SequenceMatch(){
         bool findMatch = false;
         std::vector<float> scoreList;
         const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
-        int testRange = (LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?LSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
+        int testRange = (mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
         for(int i = 0; i<testRange; i++){
-            const DBoW2::BowVector &preBoW = LSeqDatabase->mSeqList[i]->seqBowVec;
+            const DBoW2::BowVector &preBoW = mpSeqDatabase->mSeqList[i]->seqBowVec;
             meta_score = mpORBVocabulary->score(cuBoW, preBoW);
             scoreList.push_back(meta_score);
             if(meta_score>score){
                 score = meta_score;
-                mpMatchedSeq = LSeqDatabase->mSeqList[i];
+                mpMatchedSeq = mpSeqDatabase->mSeqList[i];
                 findMatch = true;
             }
         }
@@ -190,7 +192,7 @@ bool LoopClosing::DetectLoopInRange(){
         unique_lock<mutex> lock(mMutexLoopQueue);
         mpCurrentKF = mlpLoopKeyFrameQueue.front();
         mlpLoopKeyFrameQueue.pop_front();
-        mpMatchedSeq = LSeqDatabase->mSeqList[mlpLoopCandidateSeq.front()];
+        mpMatchedSeq = mpSeqDatabase->mSeqList[mlpLoopCandidateSeq.front()];
         mlpLoopCandidateSeq.pop_front();
         // Avoid that a keyframe can be erased while it is being process by this thread
         mpCurrentKF->SetNotErase();
