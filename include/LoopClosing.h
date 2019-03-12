@@ -67,7 +67,7 @@ public:
 
     void InsertSequence(Sequence *seq);
 
-    bool SequenceMatch();
+    void SequenceMatch();
 
     void RequestReset();
 
@@ -97,6 +97,7 @@ protected:
 
     bool CheckNewSequences();
 
+    bool DetectLoop();
 
     bool DetectLoopInRange();
 

@@ -1130,16 +1130,13 @@ void TemplatedVocabulary<TDescriptor,F>::transform(
 {
   v.clear();
   fv.clear();
-  
   if(empty()) // safe for subclasses
   {
     return;
   }
-  
   // normalize 
   LNorm norm;
   bool must = m_scoring_object->mustNormalize(norm);
-  
   typename vector<TDescriptor>::const_iterator fit;
   
   if(m_weighting == TF || m_weighting == TF_IDF)
@@ -1151,16 +1148,13 @@ void TemplatedVocabulary<TDescriptor,F>::transform(
       NodeId nid;
       WordValue w; 
       // w is the idf value if TF_IDF, 1 if TF
-      
       transform(*fit, id, w, &nid, levelsup);
-      
       if(w > 0) // not stopped
       { 
         v.addWeight(id, w);
         fv.addFeature(nid, i_feature);
       }
     }
-    
     if(!v.empty() && !must)
     {
       // unnecessary when normalizing
@@ -1168,7 +1162,6 @@ void TemplatedVocabulary<TDescriptor,F>::transform(
       for(BowVector::iterator vit = v.begin(); vit != v.end(); vit++) 
         vit->second /= nd;
     }
-  
   }
   else // IDF || BINARY
   {
@@ -1189,7 +1182,6 @@ void TemplatedVocabulary<TDescriptor,F>::transform(
       }
     }
   } // if m_weighting == ...
-  
   if(must) v.normalize(norm);
 }
 
@@ -1228,13 +1220,11 @@ void TemplatedVocabulary<TDescriptor,F>::transform(const TDescriptor &feature,
 
   NodeId final_id = 0; // root
   int current_level = 0;
-
   do
   {
     ++current_level;
     nodes = m_nodes[final_id].children;
     final_id = nodes[0];
- 
     double best_d = F::distance(feature, m_nodes[final_id].descriptor);
 
     for(nit = nodes.begin() + 1; nit != nodes.end(); ++nit)
@@ -1252,7 +1242,6 @@ void TemplatedVocabulary<TDescriptor,F>::transform(const TDescriptor &feature,
       *nid = final_id;
     
   } while( !m_nodes[final_id].isLeaf() );
-
   // turn node id into word id
   word_id = m_nodes[final_id].word_id;
   weight = m_nodes[final_id].weight;

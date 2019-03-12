@@ -93,7 +93,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     mptLocalMapping = new thread(&ORB_SLAM2::LocalMapping::Run,mpLocalMapper);
 
     //Initialize the SequenceDatabase thread and launch
-    mpSeqData = new SequenceDatabase(mpVocabulary);
+    mpSeqData = new SequenceDatabase(mpVocabulary, mpKeyFrameDatabase);
     mptSeqData = new thread(&ORB_SLAM2::SequenceDatabase::Run,mpSeqData);
 
     //Initialize the Loop Closing thread and launch

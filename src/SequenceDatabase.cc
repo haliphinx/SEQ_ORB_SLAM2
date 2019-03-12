@@ -2,16 +2,17 @@
 #include "LoopClosing.h"
 
 namespace ORB_SLAM2{
-	SequenceDatabase::SequenceDatabase(ORBVocabulary* voc):mbFinishRequested(false), mbFinished(true), mpVocabulary(voc){
+	SequenceDatabase::SequenceDatabase(ORBVocabulary* voc, KeyFrameDatabase* pDB):mbFinishRequested(false), mbFinished(true), mpVocabulary(voc), mpKeyFrameDB(pDB){
 
 	}//SequenceDatabase::SequenceDatabase
 
 	void SequenceDatabase::AddNewKeyFrame(KeyFrame* pKF){
 		// {
   //   		unique_lock<mutex> lock(mMutexInsertKeyFrameQueue);
-	        // mInsertKeyFrameQueue.push_back(pKF);
-	        // cout<<pKF->mnId<<endl;
+	 //        mInsertKeyFrameQueue.push_back(pKF);
   //   	}
+    	// if(CheckNewKeyFrames()){
+	    //     ProcessNewKeyFrame();}
 		if(mSeqList.size()==0){
 			cuSeq = new Sequence(pKF, mSeqList.size(), false);
 			mSeqList.push_back(cuSeq);
@@ -37,10 +38,13 @@ namespace ORB_SLAM2{
     		// if(CheckNewKeyFrames()){
     		// 	ProcessNewKeyFrame();
     		
-	    		if(!UnProcessSeqListisEmpty()){
-	    			mpLoopCloser->InsertSequence(unProcessedSeqList.front());
-	                unProcessedSeqList.pop_front();
-	    		}//if(UnProcessSeqListisEmpty())
+    		if(!UnProcessSeqListisEmpty()){
+    			if(SequenceMatch()){
+    				// mpLoopCloser->InsertSequence(unProcessedSeqList.front());
+    				ProcessNewSequence();
+                }
+                unProcessedSeqList.pop_front();
+    		}//if(UnProcessSeqListisEmpty())
 	    	// }
     		if(CheckFinish())
             	break;
@@ -52,26 +56,14 @@ namespace ORB_SLAM2{
     	}//while(1)
     }
 
-    void SequenceDatabase::ProcessNewKeyFrame(){
-  //   	{
-  //   		unique_lock<mutex> lock(mMutexInsertKeyFrameQueue);
-	        // mpCurrentKF = mInsertKeyFrameQueue.front();
-	        // mInsertKeyFrameQueue.pop_front();
-	        // cout<<mpCurrentKF->mnId<<endl;
-  //   	}
-  //   	if(mSeqList.size()==0){
-		// 	cuSeq = new Sequence(mpCurrentKF, mSeqList.size(), false);
-		// 	mSeqList.push_back(cuSeq);
-		// 	return;
-		// }
-		// int corner = cuSeq->NewSeqVarify(mpCurrentKF);
-		// // cout<<corner<<endl;
-		// if(corner!=0){
-		// 	CreateNewSequence(mpCurrentKF, corner);
-		// }
-		// else{
-		// 	cuSeq->add(mpCurrentKF);
-		// }
+    void SequenceDatabase::ProcessNewSequence(){
+    	{
+	        unique_lock<mutex> lock(unique_lock<mutex> lock);
+	        mpCurrentSeq = unProcessedSeqList.front();
+	    }
+	    for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames();i++){
+	    	mpLoopCloser->InsertKeyFrame(mpCurrentSeq->GetKeyFrame(i));
+	    }
     }
 
 	void SequenceDatabase::CreateNewSequence(KeyFrame* pKF, int corner){
@@ -92,57 +84,59 @@ namespace ORB_SLAM2{
 		// std::vector<Sequence*> can = FindSeqLoopCandidate(cuSeq);
 	}//SequenceDatabase::EndCurrenrSequence
 
-	void SequenceDatabase::SequenceMatch(){
-	    // {
-	    //     unique_lock<mutex> lock(mMutexLoopSeqQueue);
-	    //     mpCurrentSeq = mlpLoopSeqQueue.front();
-	    //     mlpLoopSeqQueue.pop_front();
-	    // }
+	bool SequenceDatabase::SequenceMatch(){
+	    {
+	        unique_lock<mutex> lock(unique_lock<mutex> lock);
+	        mpCurrentSeq = unProcessedSeqList.front();
+	    }
+	    if(mpCurrentSeq->seqId>2){
+	        float score = 0;
+	        float meta_score = 0;
+	        bool findMatch = false;
+	        std::vector<float> scoreList;
+	        const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
+	        // int testRange = (mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
+	        int testRange = mpCurrentSeq->seqId-2;
+	        for(int i = 0; i<testRange; i++){
+	            const DBoW2::BowVector &preBoW = mSeqList[i]->seqBowVec;
+	            meta_score = mpVocabulary->score(cuBoW, preBoW);
+	            scoreList.push_back(meta_score);
+	            if(meta_score>score){
+	                score = meta_score;
+	                mpMatchedSeq = mSeqList[i];
+	                findMatch = true;
+	            }
+	        }
+	        if(findMatch){
+	            double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
+	            double mean =  sum / scoreList.size();
+	            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
+	            if(score>1.5*mean){
+	                std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<std::endl;
+	                // for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+	                //     unique_lock<mutex> lock(mMutexLoopQueue);
+	                //     mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
+	                //     mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
+	                // }
+	                return true ;
+	            }
+	        }
+	    }
 
-	    // if(mpCurrentSeq->seqId>justLoopedSeqId+2){
-	    //     float score = 0;
-	    //     float meta_score = 0;
-	    //     bool findMatch = false;
-	    //     std::vector<float> scoreList;
-	    //     const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
-	    //     int testRange = (mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
-	    //     for(int i = 0; i<testRange; i++){
-	    //         const DBoW2::BowVector &preBoW = mpSeqDatabase->mSeqList[i]->seqBowVec;
-	    //         meta_score = mpORBVocabulary->score(cuBoW, preBoW);
-	    //         scoreList.push_back(meta_score);
-	    //         if(meta_score>score){
-	    //             score = meta_score;
-	    //             mpMatchedSeq = mpSeqDatabase->mSeqList[i];
-	    //             findMatch = true;
-	    //         }
-	    //     }
-	    //     if(findMatch){
-	    //         double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
-	    //         double mean =  sum / scoreList.size();
-	    //         std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
-	    //         if(score>1.5*mean){
-	    //             std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<std::endl;
-	    //             for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-	    //                 unique_lock<mutex> lock(mMutexLoopQueue);
-	    //                 mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
-	    //                 mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
-	    //             }
-	    //             return ;
-	    //         }
-	    //     }
-	    // }
+	    for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
+	        mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
+	    	}
 
-	    // for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-	    //     mpKeyFrameDB->add(mpCurrentSeq->GetKeyFrame(i));
-	    // 	}
-
-	    // return ;
+	    return false ;
 	}//void SequenceDatabase::SequenceMatch()
 
 
 	bool SequenceDatabase::UnProcessSeqListisEmpty(){
-		if(unProcessedSeqList.empty()){
-			return true;
+		{
+			unique_lock<mutex> lock(mMutexUnProcessedSeqList);
+			if(unProcessedSeqList.empty()){
+				return true;
+			}
 		}
 		return false;
 	}//SequenceDatabase::UnProcessSeqListisEmpty()
@@ -180,8 +174,8 @@ namespace ORB_SLAM2{
 	    return mbFinished;
 	}
 
-	bool SequenceDatabase::CheckNewKeyFrames(){
-		// unique_lock<mutex> lock(mMutexInsertKeyFrameQueue);
-    	return(!mInsertKeyFrameQueue.empty());
-	}
+	// bool SequenceDatabase::CheckNewKeyFrames(){
+	// 	// unique_lock<mutex> lock(mMutexInsertKeyFrameQueue);
+ //    	return(!mInsertKeyFrameQueue.empty());
+	// }
 }//namespace

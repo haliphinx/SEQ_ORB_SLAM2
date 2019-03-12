@@ -4,6 +4,8 @@
 #include "Sequence.h"
 #include "ORBVocabulary.h"
 #include "KeyFrame.h"
+#include "KeyFrameDatabase.h"
+
 #include <mutex>
 
 namespace ORB_SLAM2{
@@ -11,16 +13,19 @@ namespace ORB_SLAM2{
 
 	class LoopClosing;
 
+	class KeyFrameDatabase;
+
 	class SequenceDatabase{
 	public:
-		SequenceDatabase(ORBVocabulary* voc);
+		SequenceDatabase(ORBVocabulary* voc, KeyFrameDatabase* pDB);
 		void AddNewKeyFrame(KeyFrame* pKF);
 		void SetLoopCloser(LoopClosing* pLoopCloser); 
 		// Main function
     	void Run();
+    	void ProcessNewSequence();
 		void CreateNewSequence(KeyFrame* pKF, int corner);
 		void EndCurrenrSequence();
-		void SequenceMatch();
+		bool SequenceMatch();
 		bool UnProcessSeqListisEmpty();
 		int GetLatestCorner(int& seqId);
 		bool CheckFinish();
@@ -37,14 +42,16 @@ namespace ORB_SLAM2{
 		ORBVocabulary* mpVocabulary;
     	std::vector<Sequence*> mSeqList;
     	std::list<Sequence*> unProcessedSeqList;
+    	std::mutex mMutexUnProcessedSeqList;
+
     	Sequence* cuSeq;
     	LoopClosing* mpLoopCloser;
 
     protected:
-    	void ProcessNewKeyFrame();
-    	bool CheckNewKeyFrames();
+    	KeyFrameDatabase* mpKeyFrameDB;
     	Sequence* mpCurrentSeq;
-    	std::list<KeyFrame*> mInsertKeyFrameQueue;
+    	// std::list<KeyFrame*> mInsertKeyFrameQueue;
+    	Sequence* mpMatchedSeq;
 
 	    // std::mutex mMutexInsertKeyFrameQueue;
 	    KeyFrame* mpCurrentKF;
