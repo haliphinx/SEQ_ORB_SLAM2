@@ -55,6 +55,7 @@ namespace ORB_SLAM2{
 
 	    // std::mutex mMutexInsertKeyFrameQueue;
 	    KeyFrame* mpCurrentKF;
+	    int justLoopedId;
 	};//SequenceDatabase
 }//namspace ORB_SLAM2
 #endif //SEQUENCEDATABASE_H

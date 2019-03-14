@@ -77,7 +77,11 @@ void LoopClosing::Run()
         // if(CheckNewSequences())
         // {
         //     SequenceMatch();
-
+// #ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+// #endif
             if(CheckNewKeyFrames()){
                 
                 if(DetectLoop()){
@@ -91,7 +95,13 @@ void LoopClosing::Run()
             }
             
         // }
-
+// #ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+// #endif
+//         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+//         outfile<<"%&"<<1000*ttrack<<"&%"<<endl;
 
               
 

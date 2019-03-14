@@ -98,7 +98,7 @@ int Sequence::NumOfKeyFrames(){
 
 int Sequence::NumOfKeyPoints(){
 	int num=0;
-	for(int i = 0; i<static_cast<int>(KFList.size()); i++){
+	for(unsigned int i = 0; i<KFList.size(); i++){
 		num += KFList[i]->mvKeys.size();
 	}
 	return num;
@@ -113,14 +113,16 @@ void Sequence::ComputeBoW(ORBVocabulary* voc)
         // Feature vector associate features with nodes in the 4th level (from leaves up)
         // We assume the vocabulary tree has 6 levels, change the 4 otherwise
         voc->transform(vCurrentDesc,seqBowVec,seqFeatVec,4);
+        // cout<<seqBowVec.size()<<endl;
     }
 }
 
 cv::Mat Sequence::GetDescriptors(){
 	cv::Mat tDes = KFList.front()->mDescriptors;
-	for(int i = 0; i<static_cast<int>(KFList.size()); i++){
+	for(unsigned int i = 0; i<KFList.size(); i++){
 		cv::vconcat(tDes, KFList[i]->mDescriptors, tDes);
 	}
+	
 	return tDes;
 }
 

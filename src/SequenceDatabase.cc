@@ -2,7 +2,9 @@
 #include "LoopClosing.h"
 
 namespace ORB_SLAM2{
-	SequenceDatabase::SequenceDatabase(ORBVocabulary* voc, KeyFrameDatabase* pDB):mbFinishRequested(false), mbFinished(true), mpVocabulary(voc), mpKeyFrameDB(pDB){
+	SequenceDatabase::SequenceDatabase(ORBVocabulary* voc, KeyFrameDatabase* pDB):mbFinishRequested(false), mbFinished(true), mpVocabulary(voc), mpKeyFrameDB(pDB),
+	justLoopedId(0)
+	{
 
 	}//SequenceDatabase::SequenceDatabase
 
@@ -34,18 +36,47 @@ namespace ORB_SLAM2{
 	// Main function
     void SequenceDatabase::Run(){
     	mbFinished =false;
+    	// ofstream outfile("/home/xhu/Desktop/res.txt");
     	while(1){
     		// if(CheckNewKeyFrames()){
     		// 	ProcessNewKeyFrame();
     		
     		if(!UnProcessSeqListisEmpty()){
+
+
+
+//     			#ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+// #endif
+
+
+
     			if(SequenceMatch()){
-    				// mpLoopCloser->InsertSequence(unProcessedSeqList.front());
+
+
+
+//     				#ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+// #endif
+//         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+//         outfile<<"%&"<<1000*ttrack<<"&%"<<endl;
+
+
+
     				ProcessNewSequence();
                 }
                 unProcessedSeqList.pop_front();
+
     		}//if(UnProcessSeqListisEmpty())
 	    	// }
+
+
+
+
     		if(CheckFinish())
             	break;
 
@@ -61,6 +92,7 @@ namespace ORB_SLAM2{
 	        unique_lock<mutex> lock(unique_lock<mutex> lock);
 	        mpCurrentSeq = unProcessedSeqList.front();
 	    }
+	    justLoopedId = mpCurrentSeq->seqId;
 	    for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames();i++){
 	    	mpLoopCloser->InsertKeyFrame(mpCurrentSeq->GetKeyFrame(i));
 	    }
@@ -89,7 +121,16 @@ namespace ORB_SLAM2{
 	        unique_lock<mutex> lock(unique_lock<mutex> lock);
 	        mpCurrentSeq = unProcessedSeqList.front();
 	    }
-	    if(mpCurrentSeq->seqId>2){
+	    
+	    cout<<"qq"<<endl;
+#ifdef COMPILEDWITHC11
+        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+#else
+        std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+#endif
+
+
+	    if(mpCurrentSeq->seqId>justLoopedId+2){
 	        float score = 0;
 	        float meta_score = 0;
 	        bool findMatch = false;
@@ -107,17 +148,23 @@ namespace ORB_SLAM2{
 	                findMatch = true;
 	            }
 	        }
+
+
+	            				#ifdef COMPILEDWITHC11
+        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+#else
+        std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+#endif
+        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        cout<<"%&"<<1000*ttrack<<"&%"<<endl;
+
+
 	        if(findMatch){
 	            double sum = std::accumulate(std::begin(scoreList), std::end(scoreList), 0.0);  
 	            double mean =  sum / scoreList.size();
 	            std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<")"<<std::endl;
 	            if(score>1.5*mean){
 	                std::cout<<"Most similar sequence pair:("<<mpCurrentSeq->seqId<<","<<mpMatchedSeq->seqId<<") "<<"score:"<<score<<" mean:"<<mean<<std::endl;
-	                // for(int i = 0; i<mpCurrentSeq->NumOfKeyFrames(); i++){
-	                //     unique_lock<mutex> lock(mMutexLoopQueue);
-	                //     mlpLoopKeyFrameQueue.push_back(mpCurrentSeq->GetKeyFrame(i));
-	                //     mlpLoopCandidateSeq.push_back(mpMatchedSeq->seqId);
-	                // }
 	                return true ;
 	            }
 	        }
