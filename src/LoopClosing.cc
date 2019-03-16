@@ -33,7 +33,6 @@
 #include<thread>
 
 #include<iostream>
-#include<fstream>
 
 
 namespace ORB_SLAM2
@@ -61,15 +60,8 @@ void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)
 void LoopClosing::Run()
 {
     mbFinished =false;
-    ofstream outfile("/home/xhu/Desktop/res1.txt");
-
     while(1)
     {
-        #ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
-#endif
         // Check if there are keyframes in the queue
         if(CheckNewKeyFrames())
         {
@@ -87,15 +79,7 @@ void LoopClosing::Run()
         }       
 
         ResetIfRequested();
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
-#endif
 
-        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-
-        outfile<<"%&"<<1000*ttrack<<"&%"<<endl;
         if(CheckFinish())
             break;
 

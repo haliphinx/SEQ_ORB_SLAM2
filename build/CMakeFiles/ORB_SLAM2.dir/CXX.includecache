@@ -943,8 +943,6 @@ thread
 -
 iostream
 -
-fstream
--
 
 /home/xhu/Code/ORB_SLAM2/src/Map.cc
 Map.h
