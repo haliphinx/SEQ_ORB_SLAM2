@@ -99,9 +99,9 @@ def align(model,data):
 
 
 if __name__ == '__main__':
-	ground_time = np.loadtxt('/home/xhu/Code/dataset/sequences/08/times.txt')
-	res_time = np.loadtxt('/home/xhu/Code/ORB_SLAM2/Examples/Monocular/KeyFrameTrajectory.txt')
-	ground_data = np.loadtxt('/home/xhu/Code/dataset/poses/08.txt')
+	ground_time = np.loadtxt('/home/xhu/Code/dataset/sequences/00/times.txt')
+	res_time = np.loadtxt('/home/xhu/Code/ORB_SLAM2/Examples/Monocular/evaluation/eva_kitti/KeyFrameTrajectory.txt')
+	ground_data = np.loadtxt('/home/xhu/Code/dataset/poses/00.txt')
 	data= gen_data(ground_time, res_time, ground_data)
 	ground_points = np.asarray(get_coo(data))
 	re_points = np.asarray(get_points(res_time))

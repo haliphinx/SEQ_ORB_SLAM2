@@ -5,6 +5,7 @@ namespace ORB_SLAM2{
 	SequenceDatabase::SequenceDatabase(ORBVocabulary* voc, KeyFrameDatabase* pDB):mbFinishRequested(false), mbFinished(true), mpVocabulary(voc), mpKeyFrameDB(pDB),
 	justLoopedId(0)
 	{
+		mSeqList.reserve(200);
 
 	}//SequenceDatabase::SequenceDatabase
 
@@ -36,7 +37,7 @@ namespace ORB_SLAM2{
 	// Main function
     void SequenceDatabase::Run(){
     	mbFinished =false;
-    	// ofstream outfile("/home/xhu/Desktop/res.txt");
+    	ofstream outfile("/home/xhu/Desktop/res.txt");
     	while(1){
     		// if(CheckNewKeyFrames()){
     		// 	ProcessNewKeyFrame();
@@ -45,11 +46,11 @@ namespace ORB_SLAM2{
 
 
 
-//     			#ifdef COMPILEDWITHC11
-//         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-// #else
-//         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
-// #endif
+    			#ifdef COMPILEDWITHC11
+        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+#else
+        std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+#endif
 
 
 
@@ -57,13 +58,13 @@ namespace ORB_SLAM2{
 
 
 
-//     				#ifdef COMPILEDWITHC11
-//         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-// #else
-//         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
-// #endif
-//         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-//         outfile<<"%&"<<1000*ttrack<<"&%"<<endl;
+    				#ifdef COMPILEDWITHC11
+        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+#else
+        std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+#endif
+        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        outfile<<"%&"<<1000*ttrack<<"&%"<<endl;
 
 
 
@@ -122,12 +123,12 @@ namespace ORB_SLAM2{
 	        mpCurrentSeq = unProcessedSeqList.front();
 	    }
 	    
-	    cout<<"qq"<<endl;
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
-#endif
+// 	    cout<<"qq"<<endl;
+// #ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+// #endif
 
 
 	    if(mpCurrentSeq->seqId>justLoopedId+2){
@@ -138,6 +139,7 @@ namespace ORB_SLAM2{
 	        const DBoW2::BowVector &cuBoW = mpCurrentSeq->seqBowVec;
 	        // int testRange = (mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId)<mpCurrentSeq->seqId-2)?mpSeqDatabase->GetLatestCorner(mpCurrentSeq->seqId):mpCurrentSeq->seqId-2;
 	        int testRange = mpCurrentSeq->seqId-2;
+	        scoreList.reserve(testRange);
 	        for(int i = 0; i<testRange; i++){
 	            const DBoW2::BowVector &preBoW = mSeqList[i]->seqBowVec;
 	            meta_score = mpVocabulary->score(cuBoW, preBoW);
@@ -150,13 +152,13 @@ namespace ORB_SLAM2{
 	        }
 
 
-	            				#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
-#endif
-        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-        cout<<"%&"<<1000*ttrack<<"&%"<<endl;
+// 	            				#ifdef COMPILEDWITHC11
+//         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+// #else
+//         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+// #endif
+//         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+//         cout<<"%&"<<1000*ttrack<<"&%"<<endl;
 
 
 	        if(findMatch){

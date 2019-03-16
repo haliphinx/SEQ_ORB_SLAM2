@@ -42,6 +42,8 @@ namespace ORB_SLAM2{
 
 
 		std::vector<KeyFrame*> KFList;
+	protected:
+		int lengthThreshold;
 
 
 	};//Sequence

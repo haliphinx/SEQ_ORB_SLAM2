@@ -4,9 +4,10 @@
 namespace ORB_SLAM2{
 
 
-Sequence::Sequence(KeyFrame* pKF, int id, bool corner):seqId(id),iscorner(corner), seqLength(1){
-	
+Sequence::Sequence(KeyFrame* pKF, int id, bool corner):seqId(id),iscorner(corner), seqLength(1), lengthThreshold(12){
+
 	dAngle = 0;
+	KFList.reserve(lengthThreshold);
 
 	// seqKeys.clear();
 	// KFList.clear();
@@ -47,7 +48,6 @@ void Sequence::clear(){
 }//Sequence::clear
 
 int Sequence::NewSeqVarify(KeyFrame* pKF){
-	int lenThresh = 12;
 	float angThresh = 0.1;
 
 	float ang = CalAngle(KFList.back(), pKF);
@@ -61,7 +61,7 @@ int Sequence::NewSeqVarify(KeyFrame* pKF){
 		return 0;
 	}
 
-	if(seqLength>=lenThresh){
+	if(seqLength>=lengthThreshold){
 		return 1;
 	}
 
