@@ -14,6 +14,6 @@ Here is the output result for loop detection.
 ![sequence match](/res/localmapping.png)
 
 # 3. Result
-
-
+Compare the time usage for loop clusure thread between SEQ_ORB_SLAM2 and the ORB_SLAM2, and the result shown as the following graph.
+![time usage compare](/res/time usage.png)
 
